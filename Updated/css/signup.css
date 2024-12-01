@@ -14,10 +14,9 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('login-background.jpg') no-repeat center center/cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(login-background.jpg);
     background-size: cover;
-    filter: grayscale(35%);
-    z-index: 1;
+    background-position: center;
 }
 
 /* Header Outside Grayscale */
@@ -58,13 +57,14 @@ h1 {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* Form Style */
 form {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align inputs and labels to the left */
 }
 
-input[type="email"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"] {
     margin-bottom: 20px;
     padding: 15px;
     width: 100%; /* Full width */
@@ -92,10 +92,10 @@ button:hover {
     background: #f40612;
 }
 
-/* Options Section */
+/* Options Section - Adjust to align checkbox with sign-in link */
 .options {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     font-size: 12px;
@@ -105,26 +105,22 @@ button:hover {
 .options div {
     display: flex;
     align-items: center;
+    margin-right: 10px; /* Space between checkbox and label */
 }
 
 .options input[type="checkbox"] {
     margin-right: 5px; /* Add spacing between checkbox and label */
 }
 
-.options a {
-    color: #b3b3b3;
-    text-decoration: none;
-}
-
-.options a:hover {
-    text-decoration: underline;
-}
-
 /* Sign-up Section */
 .sign-up {
-    margin-top: 20px;
-    text-align: center; /* Center-align text */
+    margin-top: -30px;
+    text-align: center;
     width: 100%;
+    display: flex;
+    justify-content: center; /* Center the content */
+    align-items: center;
+    gap: 5px; /* Space between the paragraph and the link */
 }
 
 .sign-up p {
@@ -140,4 +136,7 @@ button:hover {
 
 .sign-up a:hover {
     text-decoration: underline;
+}
+#agree-terms{
+  margin-top: 30px;
 }

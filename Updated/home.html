@@ -4,19 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Netflix Style Page</title>
-  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <div class="navbar">
-    <ul class="nav-links">
-      <li><a href="#"><span>🔍</span></a></li>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Shows</a></li>
-      <li><a href="#">Movies</a></li>
-      <li><a href="#" class="active">My Netflix</a></li>
-    </ul>
-  </div>
+
+  <!-- Logo or Title -->
+<a href="home.html" class="logo">RENTAL-FILM</a>
+
+<!-- Navbar -->
+<div class="navbar">
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="#">Rent & Borrow</a></li>
+    <li>
+      <a href="#" id="search-toggle"><i class="fas fa-search"></i> Search</a>
+    </li>
+  </ul>
+</div>
+
+<!-- Search Form -->
+<div class="search-form" id="search-form">
+  <form action="#" method="GET">
+    <input type="text" name="genre" placeholder="Genre" />
+    <input type="text" name="actor" placeholder="Actor" />
+    <input type="text" name="title" placeholder="Movie Title" />
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="play">
+  <img src="image/jungle-book-wallpaper-1920x1080.jpg" alt="Deskripsi Gambar" class="img-cover">
+  <p class="caption">The Jungle Book is a 2016 American fantasy adventure film directed and produced by Jon Favreau, written by Justin Marks and produced by Walt Disney Pictures. It is a live-action animated remake of Disney's 1967 animated film The Jungle Book. </p>
+</div>
+
 
   <!-- Content -->
   <div class="content">
@@ -85,5 +107,7 @@
   <div class="logout-container">
     <a href="login.html" class="logout-btn">Logout</a>
   </div>
+
+  <script src="js/home.js"></script>
 </body>
 </html>
