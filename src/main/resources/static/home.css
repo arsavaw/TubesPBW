@@ -1,0 +1,309 @@
+/* Reset */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+    color: #fff;
+    position: relative; /* Allow absolute positioning within the body */
+    box-sizing: border-box;
+    
+  }
+  
+/* Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  background-color: #000;
+ 
+  border-radius: 30px;
+  box-shadow:  rgba(0, 0, 0, 0.5);
+  margin: 10px ;
+  width: 50%;
+  max-width: 400px; 
+}
+
+
+/* Logo/Title */
+.logo {
+  position: absolute;  /* Posisi absolut di kiri atas */
+  top: 10px;  /* Memberikan sedikit jarak dari atas */
+  left: 10px;  /* Memberikan sedikit jarak dari kiri */
+  font-size: 30px;  /* Ukuran font */
+  font-weight: bold;  /* Tebalkan font */
+  color: #e50914;  /* Warna merah */
+  text-decoration: none;  /* Menghapus garis bawah pada link */
+  transition: color 0.3s ease;  /* Efek transisi untuk perubahan warna */
+}
+
+.logo:hover {
+  color: #b20710;  /* Warna merah gelap saat hover */
+}
+
+/* Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+/* Individual Link Items */
+.nav-links li {
+  text-align: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+}
+/* Active Link Style */
+.nav-links a.active {
+  background-color: #e50914;
+  color: #fff;
+}
+
+/* Hover Effect */
+.nav-links a:hover {
+  background-color: #e50914;
+  color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 650px) {
+  .navbar {
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+  .nav-links {
+    flex-direction: column; 
+    width: 100%;
+    gap: 10px; 
+  }
+
+  .nav-links a {
+    width: 100%; 
+    padding: 10px; 
+    text-align: left; 
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    display: none; 
+  }
+
+  .nav-links.active {
+    display: flex; 
+  }
+
+  .menu-toggle {
+    display: block; 
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+    margin-bottom: 10px; 
+  }
+}
+
+  
+  .nav-links a.active:hover {
+    background-color: #b20710;
+  }
+  /* Hover Effect */
+  .nav-links a:hover {
+    background-color: #e50914;
+    color: #fff;
+  }
+  
+  /* Content Section */
+  .content {
+    padding: 20px;
+  }
+  
+  /* Section Title */
+  .content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Movie Section */
+  .movie-section {
+    display: flex;
+    flex-wrap: nowrap; /* Jangan biarkan elemen pindah ke baris baru */
+    gap: 15px;
+    overflow-x: auto;
+    padding: 10px 0;
+  }
+
+  .movie-section::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Movie Item */
+  .movie {
+    min-width: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    background-color: transparent; /* Menghilangkan background abu-abu */
+  }
+  
+  /* Gambar Film */
+  .movie img {
+    width: 200px; /* Ukuran seragam untuk semua gambar */
+    height: 300px; /* Proporsi seragam untuk semua gambar */
+    object-fit: cover; /* Memastikan gambar tidak terdistorsi */
+    border-radius: 10px;
+    border-bottom: 3px solid #E50914; /* Garis merah di bawah gambar */
+  }
+  
+  .movie p {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  /* Informasi Film */
+  .movie-info {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: -5px;
+  }
+  
+  .movie-description {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+  
+  /* Logout Button */
+  .logout-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .logout-btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #e50914;
+    color: #fff;
+    border-radius: 30px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #b20710;
+  }
+  
+
+  /* Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  background-color: #000;
+  padding: 10px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+/* Style untuk Form Pencarian */
+.search-form {
+  display: none; /* Form tidak muncul pertama kali */
+  position: absolute;
+  top: 50px; /* Jarak dari navbar */
+  left: 50%;
+  transform: translateX(-50%); /* Agar form berada di tengah */
+  width: 80%; /* Lebar form */
+  max-width: 800px; /* Maksimal lebar form */
+  background-color: #141414;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* Agar form berada di atas navbar */
+  border-radius: 10px;
+}
+
+/* Form Style */
+.search-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-form input,
+.search-form button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.search-form button {
+  background-color: #e50914;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background-color: #b20710;
+}
+
+
+
+.cover{
+  width: 100%;
+  mask-image: linear-gradient(to right,transparent,black 75%);
+  -weblit-mask-image :linear-gradient(to right,transparent,black 75%);
+  height: 100%; /* Menjaga proporsi gambar */
+  object-fit: cover; /* Menjaga gambar mengisi kontainer tanpa distorsi */
+}
+
+.play {
+  position: relative;
+  width: 100%;
+  max-width: 1920px; /* Sesuaikan dengan lebar asli gambar */
+  height: 0;
+  padding-bottom: 56.25%; /* Aspect ratio 16:9 (1920x1080) */
+  overflow: hidden;
+}
+
+.img-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Agar gambar menutupi area tanpa terdistorsi */
+}
+
+.caption {
+  position: absolute;
+  bottom: 20px;  /* Memberi jarak dari bawah */
+  left: 30%;  /* Menempatkan elemen di tengah secara horizontal */
+  transform: translateX(-50%);  /* Menggeser elemen ke kiri untuk memastikan benar-benar di tengah */
+  width: 50%;  /* Menyesuaikan lebar hanya 1/2 dari kontainer */
+  text-align: left;  /* Agar teks rata kiri */
+  color: white;
+  font-size: 1.5em;
+  font-family: 'Roboto', Arial, sans-serif;
+
+  padding: 10px;
+  box-sizing: border-box;  /* Memastikan padding tidak melampaui batas */
+}
