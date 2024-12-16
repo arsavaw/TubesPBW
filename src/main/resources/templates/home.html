@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Style Page</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+  <!-- Logo or Title -->
+<a href="home.html" class="logo">RENTAL-FILM</a>
+
+<!-- Navbar -->
+<div class="navbar">
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="#">Rent & Borrow</a></li>
+    <li>
+      <a href="#" id="search-toggle"><i class="fas fa-search"></i> Search</a>
+    </li>
+  </ul>
+</div>
+
+<!-- Search Form -->
+<div class="search-form" id="search-form">
+  <form action="#" method="GET">
+    <input type="text" name="genre" placeholder="Genre" />
+    <input type="text" name="actor" placeholder="Actor" />
+    <input type="text" name="title" placeholder="Movie Title" />
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="play">
+  <img src="image/jungle-book-wallpaper-1920x1080.jpg" alt="Deskripsi Gambar" class="img-cover">
+  <p class="caption">The Jungle Book is a 2016 American fantasy adventure film directed and produced by Jon Favreau, written by Justin Marks and produced by Walt Disney Pictures. It is a live-action animated remake of Disney's 1967 animated film The Jungle Book. </p>
+</div>
+
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Section: My List -->
+    <h2>My List</h2>
+    <div class="movie-section">
+      <!-- Original Movies -->
+      <div class="movie">
+        <img src="image/alien.jpg" alt="Alien">
+        <p>Alien</p>
+        <p class="movie-info">TV Dramas • 2024 • Limited Series • TV-MA</p>
+        <p class="movie-description">Inspired by real events, this fictional dramatization shows Griselda Blanco's journey from Medellín to becoming "the Godmother" of Miami's drug empire.</p>
+      </div>
+      <div class="movie">
+        <img src="image/archer.jpg" alt="ARCHER">
+        <p>ARCHER</p>
+        <p class="movie-info">Drama • Series</p>
+      </div>
+      <div class="movie">
+        <img src="image/hobbit.jpg" alt="HOBBIT">
+        <p>HOBBIT</p>
+        <p class="movie-info">Romance • Series</p>
+      </div>
+      <div class="movie">
+        <img src="image/mission.jpeg" alt="Mission">
+        <p>Spider-Man: Across the Spider-Verse</p>
+        <p class="movie-info">Animation • 2023 • PG</p>
+      </div>
+      <div class="movie">
+        <img src="image/vijay.jpeg" alt="Megatron">
+        <p>Megatron</p>
+        <p class="movie-info">Action • Series</p>
+      </div>
+
+      <!-- Duplicated Movies to Fill the Row -->
+      <div class="movie">
+        <img src="image/alien.jpg" alt="Alien">
+        <p>Alien</p>
+        <p class="movie-info">TV Dramas • 2024 • Limited Series • TV-MA</p>
+        <p class="movie-description">Inspired by real events, this fictional dramatization shows Griselda Blanco's journey from Medellín to becoming "the Godmother" of Miami's drug empire.</p>
+      </div>
+    </div>
+
+    <!-- Section: Continue Watching -->
+    <h2>Continue Watching</h2>
+    <div class="movie-section">
+      <div class="movie">
+        <img src="image/darok-twer.jpeg" alt="Movie 1">
+        <p>Movie 1</p>
+        <p class="movie-info">Comedy • 2022</p>
+      </div>
+      <div class="movie">
+        <img src="image/ragnarok.jpeg" alt="Movie 2">
+        <p>Movie 2</p>
+        <p class="movie-info">Drama • 2021</p>
+      </div>
+      <div class="movie">
+        <img src="image/avatar2.jpeg" alt="Movie 3">
+        <p>Movie 3</p>
+        <p class="movie-info">Thriller • 2020</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Button -->
+  <div class="logout-container">
+    <a href="/logout" class="logout-btn">Logout</a>
+  </div>
+
+  <script src="js/home.js"></script>
+</body>
+</html>
