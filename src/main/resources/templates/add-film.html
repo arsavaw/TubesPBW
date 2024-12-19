@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Film</title>
+    <script src="/addfilm.js" defer></script>
+</head>
+<body>
+    <h1>Tambah Film</h1>
+    <form id="add-film-form">
+        <div>
+            <label for="nama-film">Nama Film:</label>
+            <input type="text" id="nama-film" name="nama-film" required>
+        </div>
+        <div>
+            <label for="genre">Genre:</label>
+            <select id="genre" name="genre" required>
+                <!-- Genre options will be populated dynamically -->
+            </select>
+        </div>
+        <div>
+            <label for="actors">Nama Aktor:</label>
+            <input type="text" id="actors" name="actors" placeholder="Pisahkan dengan koma" required>
+        </div>
+        <button type="submit">Tambah Film</button>
+    </form>
+    <div id="message"></div>
+</body>
+</html>
