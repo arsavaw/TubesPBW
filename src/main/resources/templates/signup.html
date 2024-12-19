@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RENTAL-FILM Sign Up</title>
-    <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/signup.css">
 </head>
 <body>
     <div class="header-outside">
@@ -14,25 +14,46 @@
     <div class="login-container">
         <div class="login-box">
             <h1>Create Account</h1>
-            <!-- Add action attribute to form -->
-            <form action="welcome.html" method="post">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
+            <form action="/register" method="post">
+                <input type="text" name="username_pelanggan" placeholder="Username" required>
+                <input type="password" name="password_pelanggan" placeholder="Password" required>
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" required> <!-- confirmPassword -->
                 <button type="submit">Sign Up</button>
                 <div class="options">
                     <div>
-                        
                         <label for="agree-terms">I agree to the terms and conditions</label>
                     </div>
                 </div>
             </form>
+
+            <!-- Notifikasi sukses -->
+            <div id="successNotification" class="notification" style="display:none;">
+                Registration successful!
+            </div>
+
             <div class="sign-up">
-                <p>Already have an account? <a href="login.html">Sign In</a></p>
+                <p>Already have an account? <a href="/login">Sign In</a></p>
             </div>
         </div>
     </div>
+
+    <script>
+        // Cek jika ada parameter "success" yang diteruskan dalam URL
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const success = urlParams.get('success'); // Mengambil parameter 'success' dari URL
+
+            // Jika berhasil register, tampilkan notifikasi
+            if (success === 'true') {
+                const notification = document.getElementById('successNotification');
+                notification.style.display = 'block'; // Tampilkan notifikasi
+
+                // Sembunyikan notifikasi setelah 3 detik
+                setTimeout(function() {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
 </body>
 </html>

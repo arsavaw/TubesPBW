@@ -1,13 +1,12 @@
 package com.example.m08.Pelanggan;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.validation.Valid;
 
 @Controller
 public class PelangganController {
@@ -34,8 +33,9 @@ public class PelangganController {
                 bindingResult.rejectValue("username_pelanggan", "error.pelanggan", "Registration failed. Username might already exist.");
                 return "signup";
             }
-            
-            return "redirect:/login";
+
+            // Redirect dengan parameter success=true
+            return "redirect:/register?success=true";
         } catch (Exception e) {
             bindingResult.rejectValue("username_pelanggan", "error.pelanggan", "An error occurred during registration");
             return "signup";

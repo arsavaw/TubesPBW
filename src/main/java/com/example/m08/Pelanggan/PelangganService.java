@@ -13,25 +13,20 @@ public class PelangganService {
 
     public boolean register(Pelanggan pelanggan) {
         try {
-            // Tidak melakukan enkripsi password lagi
-            pelangganRepository.save(pelanggan);  // Simpan dengan password plaintext
+            // Simpan data pelanggan dengan password plaintext
+            pelangganRepository.save(pelanggan);
             return true;
         } catch (Exception e) {
-            // Log exception jika ada error
+            // Tangani jika ada error
             return false;
         }
     }
 
     public Pelanggan login(String username, String rawPassword) {
-        // Temukan pelanggan berdasarkan username
         Optional<Pelanggan> optionalPelanggan = pelangganRepository.findByUsername(username);
-        
-        // Jika pelanggan ditemukan dan password cocok, kembalikan pelanggan
-        if (optionalPelanggan.isPresent() && optionalPelanggan.get().getPassword().equals(rawPassword)) {
+        if (optionalPelanggan.isPresent() && optionalPelanggan.get().getPassword_pelanggan().equals(rawPassword)) {
             return optionalPelanggan.get();
         }
-
-        // Jika tidak cocok, return null
         return null;
     }
 }

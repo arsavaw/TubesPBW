@@ -18,5 +18,5 @@ public class Pelanggan {
 
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 4, max = 60, message = "Password must be between 4 and 60 characters")
-    private String password;
+    private String password_pelanggan; // Sesuaikan dengan kolom di tabel
 }

@@ -16,8 +16,8 @@ public class JdbcPelangganRepository implements PelangganRepository {
 
     @Override
     public void save(Pelanggan pelanggan) throws Exception {
-        String sql = "INSERT INTO Pelanggan (username_pelanggan, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, pelanggan.getUsername_pelanggan(), pelanggan.getPassword());
+        String sql = "INSERT INTO Pelanggan (username_pelanggan, password_pelanggan) VALUES (?, ?)";
+        jdbcTemplate.update(sql, pelanggan.getUsername_pelanggan(), pelanggan.getPassword_pelanggan());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class JdbcPelangganRepository implements PelangganRepository {
         Pelanggan pelanggan = new Pelanggan();
         pelanggan.setID_Pelanggan(resultSet.getInt("ID_Pelanggan"));
         pelanggan.setUsername_pelanggan(resultSet.getString("username_pelanggan"));
-        pelanggan.setPassword(resultSet.getString("password_pelanggan"));
+        pelanggan.setPassword_pelanggan(resultSet.getString("password_pelanggan"));
         return pelanggan;
     }
 }
