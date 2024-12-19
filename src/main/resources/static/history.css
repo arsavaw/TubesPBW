@@ -1,0 +1,158 @@
+/* Global Settings */
+* {
+    box-sizing: border-box;
+}
+
+/* Reset */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+    color: #fff;
+    position: relative;
+    display: flex;
+    justify-content: center; /* Menyusun elemen secara horizontal di tengah */
+    align-items: center; /* Menyusun elemen secara vertikal di tengah */
+    min-height: 100vh; /* Membuat body memiliki tinggi minimal 100% dari viewport */
+}
+
+/* Logo/Title */
+.logo {
+    position: absolute;  /* Posisi absolut di kiri atas */
+    top: 50px;  /* Memberikan sedikit jarak dari atas */
+    left: 60px;  /* Memberikan sedikit jarak dari kiri */
+    font-size: 30px;  /* Ukuran font */
+    font-weight: bold;  /* Tebalkan font */
+    color: #e50914;  /* Warna merah */
+    text-decoration: none;  /* Menghapus garis bawah pada link */
+    transition: color 0.3s ease;  /* Efek transisi untuk perubahan warna */
+}
+
+.logo:hover {
+    color: #b20710;  /* Warna merah gelap saat hover */
+}
+
+/* Content Section */
+.content {
+    padding: 20px;
+    text-align: center; /* Mengatur teks di dalam content agar rata tengah */
+}
+
+.content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin: 30px;
+}
+
+/* Search Section */
+.search-container {
+    display: flex;
+    justify-content: center; /* Memusatkan form secara horizontal */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 120px;
+    background-color: #222;
+    color: #fff;
+}
+
+/* Button Styles */
+.search-btn, .reset-btn {
+    padding: 8px 16px;
+    background-color: #e50914; /* Warna merah untuk tema */
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 120px; /* Menyamakan lebar kedua tombol */
+}
+
+.reset-btn {
+    background-color: #555; /* Mengubah warna tombol Reset agar sesuai dengan tema */
+}
+
+.reset-btn:hover {
+    background-color: #444; /* Memberikan efek hover */
+}
+
+.search-btn:hover {
+    background-color: #b20710;
+}
+
+/* Movie Section */
+.movie-section {
+    display: flex;
+    flex-direction: column;  /* Menampilkan item film secara vertikal */
+    gap: 20px;  /* Jarak antar item film */
+    padding: 10px 0;
+    justify-content: flex-start;
+    width: 100%;  /* Membuat section memenuhi lebar layar */
+    overflow: hidden;  /* Menghindari elemen yang meluap keluar dari container */
+}
+
+/* Movie Item */
+.movie {
+    display: flex;
+    width: 100%;  /* Mengatur lebar film untuk memanjang memenuhi layar */
+    height: 200px;  /* Menentukan tinggi tetap untuk item film */
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: transparent;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Poster image (30% width) */
+.movie-poster {
+    width: 30%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.movie-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Menyesuaikan gambar dengan ukuran container */
+}
+
+/* Movie Content (70% width) */
+.movie-content {
+    width: 70%;  /* Sisakan 70% untuk konten film */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Title and Info */
+.movie-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-description {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #bbb;
+    height: 60%;  /* Sisakan ruang untuk deskripsi */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-meta {
+    font-size: 12px;
+    color: #bbb;
+}

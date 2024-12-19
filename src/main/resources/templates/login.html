@@ -1,0 +1,36 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RENTAL-FILM Login</title>
+    <link rel="stylesheet" href="/login.css">
+    </head>
+    <body>
+        <div class="header-outside">
+            <h1>RENTAL-FILM</h1>
+        </div>
+        <div class="grayscale-layer"></div>
+        <div class="login-container">
+            <div class="login-box">
+                <h1>Sign In</h1>
+                <!-- Add action attribute to form -->
+                <form action="/login" method="post">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Sign In</button>
+                    <div class="options">
+                        <div>
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                    </div>
+                </form>
+                
+                
+                <div class="sign-up">
+                    <p>New to DVD-RENTAL? <a href="/register">Sign up now.</a></p>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
