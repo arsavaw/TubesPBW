@@ -1,5 +1,6 @@
 package com.example.m08.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -7,17 +8,21 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource datasource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        
-        // Gantilah URL, username, dan password sesuai dengan konfigurasi database PostgreSQL Anda
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/tubes");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("ayamgoreng");
-        
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 }

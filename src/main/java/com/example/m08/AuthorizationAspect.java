@@ -19,7 +19,8 @@ public class AuthorizationAspect {
 
     // Pointcut untuk targetkan method yang memiliki anotasi @RequiredRole
     @Pointcut("@annotation(requiredRole)")
-    public void methodWithRequiredRole(RequiredRole requiredRole) {}
+    public void methodWithRequiredRole(RequiredRole requiredRole) {
+    }
 
     @Before("methodWithRequiredRole(requiredRole)")
     public void checkAuthorization(RequiredRole requiredRole) throws UnauthorizedException {
@@ -42,7 +43,8 @@ public class AuthorizationAspect {
         }
     }
 
-    // Membantu memeriksa apakah role pengguna ada dalam daftar role yang diperbolehkan
+    // Membantu memeriksa apakah role pengguna ada dalam daftar role yang
+    // diperbolehkan
     private boolean isRoleAllowed(String userRole, String[] allowedRoles) {
         for (String allowedRole : allowedRoles) {
             if (allowedRole.equals(userRole)) {
