@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/search-results.css}">
+</head>
+<body>
+    <header class="header">
+        <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
+        <div class="menu">
+            <a th:href="@{/about}" class="search-btn">About Us</a>
+            <button id="search-toggle" class="search-btn"><i class="fas fa-search"></i> Search</button>
+        </div>
+        <div class="profile-menu">
+            <span class="welcome-message">Welcome, <span th:text="${session.username}">User</span></span>
+            <div class="profile-dropdown">
+                <button class="dropdown-toggle">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a th:href="@{/history}">History</a></li>
+                    <li><a th:href="@{/rental/active}">Active Rentals</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="search-results-text">
+        <div class="search-params" th:if="${genre != null or actor != null or title != null}">
+            <h1>You searched for:</h1>
+            <h3 th:if="${title != null and title != ''}">Title : <span th:text="${title}"></span></h3>
+            <h3 th:if="${genre != null and genre != ''}">Genre : <span th:text="${genre}"></span></h3>
+            <h3 th:if="${actor != null and actor != ''}">Actor : <span th:text="${actor}"></span></h3>
+        </div>
+    </div>
+
+        <div class="movie-section">
+            <div th:if="${movies.isEmpty()}">
+                <p>No movies found matching your search criteria.</p>
+            </div>
+            <div th:each="film : ${movies}" class="movie">
+                <img th:src="@{${film.Foto_Cover}}" th:alt="${film.Nama_Film}">
+                <div class="movie-info">
+                    <p class="movie-title" th:text="${film.Nama_Film}">Movie Title</p>
+                    <p class="movie-description" th:text="${film.DeskripsiFilm}">Description</p>
+                    <div class="movie-meta">
+                        <span class="genre" th:text="${film.Nama_Genre}">Genre</span>
+                        <span class="stock" th:text="'Stock: ' + ${film.Stok}">Stock</span>
+                    </div>
+                    <form th:if="${film.Stok > 0}" th:action="@{/movie/{filmId}(filmId=${film.ID_Film})}" method="get">
+                        <button type="submit" class="rent-btn">View Details</button>
+                    </form> 
+                </div>
+            </div>
+        </div>
+
+        <div id="searchModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Search Movies</h2>
+                <form th:action="@{/search}" method="GET">
+                    <div class="search-input">
+                        <i class="fas fa-film"></i>
+                        <input type="text" name="title" id="title" placeholder="Movie Title">
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-theater-masks"></i>
+                        <input type="text" name="genre" id="genre" placeholder="Genre">
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="actor" id="actor" placeholder="Actor">
+                    </div>
+                    <button type="submit" class="search-submit">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    <script src="/home.js"></script>
+</body>
+</html>

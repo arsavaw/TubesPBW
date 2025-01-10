@@ -25,7 +25,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            justify-content: center; /* Pusatkan secara horizontal */
+            justify-content: center; 
         }
 
         .actor-tag {
@@ -44,8 +44,8 @@
             background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            flex-direction: column; /* Pastikan elemen diatur vertikal */
-            align-items: center; /* Pusatkan konten secara horizontal */
+            flex-direction: column; 
+            align-items: center; 
             text-align: center; 
         }
 
@@ -67,7 +67,7 @@
             gap: 20px;
             margin: 15px 0;
             color: #999;
-            justify-content: center; /* Pusatkan secara horizontal */
+            justify-content: center; 
         }
 
         .movie-meta span {
@@ -127,7 +127,7 @@
 
     <div class="movie-details">
         <h1>
-            Judul: <span th:text="${movie.Nama_Film}">Movie Title</span>
+            <span th:text="${movie.Nama_Film}">Movie Title</span>
         </h1>
         
         

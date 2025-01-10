@@ -1,166 +1,119 @@
-// Menangani klik pada tombol search
-document.getElementById("search-toggle").addEventListener("click", function(event) {
-    event.preventDefault();  // Mencegah aksi default
-    const searchForm = document.getElementById("search-form");
-    
-    // Toggle tampilkan form pencarian
-    searchForm.style.display = (searchForm.style.display === "block") ? "none" : "block";
-  });
+document.addEventListener('DOMContentLoaded', function() {
+    initializeMovieScroll();
+    initializeSearch();
+    initializeDropdown();
+    initializeSwiper();
+});
 
-  const movieSection = document.querySelector('.movie-section');
+function initializeMovieScroll() {
+    const movieSection = document.querySelector('.movie-section');
+    if (!movieSection) return;
 
-  let isDown = false; 
-  let startX; 
-  let scrollLeft; 
-  
-  //saat mouse ditekan
-  movieSection.addEventListener('mousedown', (e) => {
-    isDown = true;
-    movieSection.classList.add('active'); 
-    startX = e.pageX - movieSection.offsetLeft; 
-    scrollLeft = movieSection.scrollLeft; 
-  });
-  
-  //saat mouse dilepas
-  movieSection.addEventListener('mouseup', () => {
-    isDown = false;
-    movieSection.classList.remove('active'); 
-  });
-  
-  //saat mouse bergerak
-  movieSection.addEventListener('mousemove', (e) => {
-    if (!isDown) return; 
-    e.preventDefault();
-    const x = e.pageX - movieSection.offsetLeft; 
-    const walk = (x - startX) * 1; //drag speed
-    movieSection.scrollLeft = scrollLeft - walk;
-  });
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-    const progressContent = document.querySelector(".autoplay-progress span");
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var dropdownToggle = document.querySelector('.dropdown-toggle');
-      var dropdownMenu = document.querySelector('.dropdown-menu');
-
-      dropdownToggle.addEventListener('click', function(event) {
-          event.preventDefault();
-          dropdownMenu.classList.toggle('show');
-      });
-
-      document.addEventListener('click', function(event) {
-          if (!dropdownToggle.contains(event.target)) {
-              dropdownMenu.classList.remove('show');
-          }
-      });
+    movieSection.addEventListener('mousedown', (e) => {
+        isDown = true;
+        movieSection.classList.add('active');
+        startX = e.pageX - movieSection.offsetLeft;
+        scrollLeft = movieSection.scrollLeft;
     });
-    
 
-  const swiper = new Swiper(".mySwiper", {
-    spaceBetween: 30,
-    centeredSlides: true,
-    loop: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    },
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    }
-});
+    movieSection.addEventListener('mouseleave', () => {
+        isDown = false;
+        movieSection.classList.remove('active');
+    });
 
-// Get DOM elements
-const searchToggle = document.getElementById('search-toggle');
-const searchModal = document.getElementById('searchModal');
-const closeBtn = document.querySelector('.close');
-const searchForm = document.getElementById('searchForm');
-const searchResults = document.getElementById('searchResults');
+    movieSection.addEventListener('mouseup', () => {
+        isDown = false;
+        movieSection.classList.remove('active');
+    });
 
-// Show modal when search button is clicked
-searchToggle.addEventListener('click', () => {
-    searchModal.style.display = 'block';
-});
+    movieSection.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - movieSection.offsetLeft;
+        const walk = (x - startX) * 1;
+        movieSection.scrollLeft = scrollLeft - walk;
+    });
+}
 
-// Close modal when X is clicked
-closeBtn.addEventListener('click', () => {
-    searchModal.style.display = 'none';
-});
+function initializeSearch() {
+    const searchToggle = document.getElementById('search-toggle');
+    const searchModal = document.getElementById('searchModal');
+    const closeBtn = searchModal ? searchModal.querySelector('.close') : null;
 
-// Close modal when clicking outside
-window.addEventListener('click', (event) => {
-    if (event.target === searchModal) {
+    searchToggle.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        searchModal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
         searchModal.style.display = 'none';
-    }
-});
+    });
 
-// Handle form submission
-searchForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(searchForm);
-    const params = new URLSearchParams(formData);
-    
-    try {
-        const response = await fetch(`/search?${params.toString()}`);
-        if (!response.ok) throw new Error('Search failed');
-        
-        const results = await response.json();
-        displayResults(results);
-    } catch (error) {
-        console.error('Search error:', error);
-        searchResults.innerHTML = '<p class="error">An error occurred while searching. Please try again.</p>';
-    }
-});
+    window.addEventListener('click', (event) => {
+        if (event.target === searchModal) {
+            searchModal.style.display = 'none';
+        }
+    });
 
-const dropdownToggle = document.querySelector('.dropdown-toggle');
-const dropdownMenu = document.querySelector('.dropdown-menu');
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && searchModal.style.display === 'block') {
+            searchModal.style.display = 'none';
+        }
+    });
+}
 
-dropdownToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    dropdownMenu.classList.toggle('active');
-});
+function initializeDropdown() {
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
-        dropdownMenu.classList.remove('active');
-    }
-});
-
-// Close dropdown when pressing ESC key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
-        dropdownMenu.classList.remove('active');
-    }
-});
-
-function displayResults(movies) {
-    if (!movies || movies.length === 0) {
-        searchResults.innerHTML = '<p>No movies found matching your search criteria.</p>';
+    if (!dropdownToggle || !dropdownMenu) {
+        console.error('Dropdown elements not initialized');
         return;
     }
-    
-    const resultsHtml = movies.map(movie => `
-        <div class="movie">
-            <img src="${movie.foto_Cover}" alt="${movie.nama_Film}">
-            <div class="movie-info">
-                <h3 class="movie-title">${movie.nama_Film}</h3>
-                <div class="movie-meta">
-                    <span class="genre">${movie.nama_Genre}</span>
-                    <span class="stock">Stock: ${movie.stok}</span>
-                </div>
-                <p class="movie-description">${movie.deskripsiFilm}</p>
-                ${movie.stok > 0 
-                    ? `<a href="/movie/${movie.id_Film}" class="rent-btn">View Details</a>`
-                    : '<p class="out-of-stock">Currently Unavailable</p>'
-                }
-            </div>
-        </div>
-    `).join('');
-    
-    searchResults.innerHTML = resultsHtml;
+
+    dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+            dropdownMenu.classList.remove('active'); 
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) { 
+            dropdownMenu.classList.remove('active'); 
+        }
+    });
+}
+
+function initializeSwiper() {
+    const swiperElement = document.querySelector('.mySwiper');
+    if (!swiperElement) return;
+
+    new Swiper('.mySwiper', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        }
+    });
 }
