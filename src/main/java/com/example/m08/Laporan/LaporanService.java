@@ -20,12 +20,15 @@ public class LaporanService {
                 COUNT(*) as total_penyewaan,
                 COUNT(CASE WHEN p.status = 'RETURNED' THEN 1 END) as returned_count,
                 COUNT(CASE WHEN p.status = 'ACTIVE' THEN 1 END) as active_count,
-                COUNT(DISTINCT p.ID_Pelanggan) as unique_customers
+                COUNT(DISTINCT p.ID_Pelanggan) as unique_customers,
+                SUM(f.harga) as total_pendapatan
             FROM Penyewaan p
+            JOIN film f ON p.id_film = f.id_film  -- Menghubungkan tabel Penyewaan dan Film
             GROUP BY 
                 EXTRACT(MONTH FROM p.Tanggal),
                 EXTRACT(YEAR FROM p.Tanggal)
-            ORDER BY Tahun DESC, Bulan DESC
+            ORDER BY Tahun DESC, Bulan DESC;
+
             """;
         return jdbcTemplate.queryForList(sql);
     }
@@ -34,10 +37,11 @@ public class LaporanService {
         String sql = """
             SELECT 
                 COUNT(DISTINCT p.ID_Pelanggan) as total_customers,
-                COUNT(DISTINCT p.ID_Film) as total_films,
+                SUM(f.harga) as total_pendapatan,
                 COUNT(*) as total_rentals,
                 COUNT(CASE WHEN p.status = 'ACTIVE' THEN 1 END) as active_rentals
             FROM Penyewaan p
+            JOIN film f ON p.id_film = f.id_film
             """;
         return jdbcTemplate.queryForMap(sql);
     }

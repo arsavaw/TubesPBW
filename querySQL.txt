@@ -9,6 +9,7 @@ CREATE TABLE Film (
     ID_Genre INT NOT NULL,
     Stok INT NOT NULL DEFAULT 0,
     Foto_Cover VARCHAR(255),
+    harga DECIMAL(19, 0),
     FOREIGN KEY (ID_Genre) REFERENCES Genre(ID_Genre)
 );
 

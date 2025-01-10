@@ -63,8 +63,8 @@
                     <p>Total Pelanggan</p>
                 </div>
                 <div class="stat-card">
-                    <h3 th:text="${summary != null ? summary.total_films : '0'}">0</h3>
-                    <p>Total Film</p>
+                    <h3 th:text="${summary != null ? summary.total_pendapatan : '0'}">0</h3>
+                    <p>Total Pendapatan</p>
                 </div>
                 <div class="stat-card">
                     <h3 th:text="${summary != null ? summary.active_rentals : '0'}">0</h3>
@@ -83,6 +83,7 @@
                             <th>Aktif</th>
                             <th>Selesai</th>
                             <th>Jumlah Pelanggan</th>
+                            <th>Total Pendapatan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,6 +112,7 @@
                             <td th:text="${report.active_count}">0</td>
                             <td th:text="${report.returned_count}">0</td>
                             <td th:text="${report.unique_customers}">0</td>
+                            <td th:text="${report.total_pendapatan}">0</td>
                         </tr>
                     </tbody>
                 </table>

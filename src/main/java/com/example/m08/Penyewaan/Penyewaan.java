@@ -1,6 +1,9 @@
 package com.example.m08.Penyewaan;
 
 import java.util.Date;
+
+
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -21,4 +24,6 @@ public class Penyewaan {
     private String Foto_Cover;
     private String DeskripsiFilm;
     private String Nama_Genre;
+
+    private double harga;
 }

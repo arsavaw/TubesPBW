@@ -64,7 +64,7 @@ public class JdbcPenyewaan implements PenyewaanRepository {
     @Override
     public List<Penyewaan> findActiveRentals(Integer ID_Pelanggan) {
         String sql = """
-            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre
+            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre, f.harga
             FROM Penyewaan p 
             JOIN Film f ON p.ID_Film = f.ID_Film 
             JOIN Genre g ON f.ID_Genre = g.ID_Genre
@@ -76,7 +76,7 @@ public class JdbcPenyewaan implements PenyewaanRepository {
 
     public List<Penyewaan> findByUserId(Integer userId) {
         String sql = """
-            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre
+            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre, f.harga
             FROM Penyewaan p
             JOIN Film f ON p.ID_Film = f.ID_Film
             JOIN Genre g ON f.ID_Genre = g.ID_Genre
@@ -91,7 +91,7 @@ public class JdbcPenyewaan implements PenyewaanRepository {
         params.add(userId);
 
         StringBuilder sql = new StringBuilder("""
-            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre
+            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre, f.harga
             FROM Penyewaan p
             JOIN Film f ON p.ID_Film = f.ID_Film
             JOIN Genre g ON f.ID_Genre = g.ID_Genre
@@ -124,13 +124,14 @@ public class JdbcPenyewaan implements PenyewaanRepository {
         penyewaan.setNama_Film(rs.getString("Nama_Film"));
         penyewaan.setFoto_Cover(rs.getString("Foto_Cover"));
         penyewaan.setDeskripsiFilm(rs.getString("DeskripsiFilm"));
+        penyewaan.setHarga(rs.getDouble("harga"));
         return penyewaan;
     }
 
     @Override
 public List<Penyewaan> findAll() {
     String sql = """
-        SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre
+        SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre, f.harga
         FROM Penyewaan p
         JOIN Film f ON p.ID_Film = f.ID_Film
         JOIN Genre g ON f.ID_Genre = g.ID_Genre

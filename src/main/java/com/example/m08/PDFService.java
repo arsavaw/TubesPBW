@@ -38,11 +38,11 @@ public class PDFService {
             document.add(new Paragraph("\n"));
             
             // Create table
-            PdfPTable table = new PdfPTable(6); // 6 columns
+            PdfPTable table = new PdfPTable(7); 
             table.setWidthPercentage(100);
             
             // Add headers
-            Stream.of("No.", "Judul Film", "Genre", "Tanggal Pinjam", "Tanggal Kembali", "Status")
+            Stream.of("No.", "Judul Film", "Genre", "Tanggal Pinjam", "Tanggal Kembali", "Status", "Harga")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -66,6 +66,8 @@ public class PDFService {
                 table.addCell(penyewaan.getTanggal_Kembali() != null ? 
                     sdf.format(penyewaan.getTanggal_Kembali()) : "-");
                 table.addCell(penyewaan.getStatus());
+                double harga = penyewaan.getHarga();
+                table.addCell(String.valueOf(harga));
             }
             
             document.add(table);
@@ -78,6 +80,10 @@ public class PDFService {
                 .count();
             document.add(new Paragraph("Penyewaan Aktif: " + activeCount));
             document.add(new Paragraph("Penyewaan Selesai: " + (penyewaans.size() - activeCount)));
+            double totalPendapatan = penyewaans.stream()
+                .mapToDouble(Penyewaan::getHarga) // Ambil harga dari setiap penyewaan
+                .sum(); // Jumlahkan semua harga
+            document.add(new Paragraph("Total Pendapatan: " + totalPendapatan));
             
             document.close();
             
