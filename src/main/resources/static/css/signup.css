@@ -49,6 +49,7 @@ body, html {
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    height: 400px;
 }
 
 h1 {
@@ -139,4 +140,8 @@ button:hover {
 }
 #agree-terms{
   margin-top: 30px;
+}
+
+.error-message {
+    color: #fff;
 }

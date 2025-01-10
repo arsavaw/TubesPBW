@@ -1,0 +1,182 @@
+CREATE TABLE Genre (
+    ID_Genre SERIAL PRIMARY KEY,
+    Nama_Genre VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Film (
+    ID_Film SERIAL PRIMARY KEY,
+    Nama_Film VARCHAR(100) NOT NULL,
+    ID_Genre INT NOT NULL,
+    Stok INT NOT NULL DEFAULT 0,
+    Foto_Cover VARCHAR(255),
+    FOREIGN KEY (ID_Genre) REFERENCES Genre(ID_Genre)
+);
+
+CREATE TABLE Actor (
+    ID_Actor SERIAL PRIMARY KEY,
+    Nama_Actor VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Film_Actor (
+    ID_Film INT,
+    ID_Actor INT,
+    PRIMARY KEY (ID_Film, ID_Actor),
+    FOREIGN KEY (ID_Film) REFERENCES Film(ID_Film),
+    FOREIGN KEY (ID_Actor) REFERENCES Actor(ID_Actor)
+);
+
+CREATE TABLE Admin (
+    ID_Admin SERIAL PRIMARY KEY,
+    username_admin VARCHAR(50) NOT NULL,
+    password_admin VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Pelanggan (
+    ID_Pelanggan SERIAL PRIMARY KEY,
+    username_pelanggan VARCHAR(50) NOT NULL,
+    password_pelanggan VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE Penyewaan (
+    ID_Penyewaan SERIAL PRIMARY KEY,
+    Tanggal DATE NOT NULL,
+    ID_Film INT NOT NULL,
+    ID_Pelanggan INT NOT NULL,
+    Tanggal_Kembali DATE,
+    FOREIGN KEY (ID_Film) REFERENCES Film(ID_Film),
+    FOREIGN KEY (ID_Pelanggan) REFERENCES Pelanggan(ID_Pelanggan)
+);
+
+CREATE TABLE Laporan_Bulanan (
+    ID_Laporan SERIAL PRIMARY KEY,
+    Bulan INT NOT NULL,
+    Tahun INT NOT NULL,
+    Total_Penyewaan INT NOT NULL DEFAULT 0,
+    CONSTRAINT unique_period UNIQUE (Bulan, Tahun)
+);
+
+ALTER TABLE Film 
+ADD COLUMN DeskripsiFilm VARCHAR(255);
+
+ALTER TABLE Penyewaan
+ADD COLUMN status VARCHAR(255);
+
+-- Insert Genres
+INSERT INTO Genre (Nama_Genre) VALUES 
+('Action'),
+('Adventure'),
+('Comedy'),
+('Drama'),
+('Horror'),
+('Sci-Fi'),
+('Romance'),
+('Thriller'),
+('Fantasy'),
+('Animation');
+
+-- Insert Films
+INSERT INTO Film (Nama_Film, ID_Genre, Stok, Foto_Cover, DeskripsiFilm) VALUES
+('The Dark Knight', 1, 5, '/images/dark_knight.jpg', 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.'),
+('Avatar', 2, 3, '/images/avatar.jpg', 'A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.'),
+('Inception', 6, 4, '/images/inception.jpg', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.'),
+('The Shawshank Redemption', 4, 2, '/images/shawshank.jpg', 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.'),
+('Jurassic Park', 2, 3, '/images/jurassic_park.jpg', 'A pragmatic paleontologist visiting an almost complete theme park is tasked with protecting a couple of kids after a power failure causes the park''s cloned dinosaurs to run loose.'),
+('The Conjuring', 5, 4, '/images/conjuring.jpg', 'Paranormal investigators Ed and Lorraine Warren work to help a family terrorized by a dark presence in their farmhouse.'),
+('La La Land', 7, 3, '/images/la_la_land.jpg', 'While navigating their careers in Los Angeles, a pianist and an actress fall in love while attempting to reconcile their aspirations for the future.'),
+('Interstellar', 6, 5, '/images/interstellar.jpg', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity''s survival.'),
+('The Lord of the Rings', 9, 2, '/images/lotr.jpg', 'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.'),
+('Frozen', 10, 6, '/images/frozen.jpg', 'When the newly crowned Queen Elsa accidentally uses her power to turn things into ice to curse her home in infinite winter, her sister Anna teams up with a mountain man, his playful reindeer, and a snowman to change the weather condition.'),
+('The Godfather', 4, 3, '/images/godfather.jpg', 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.'),
+('Spider-Man: No Way Home', 1, 7, '/images/spiderman.jpg', 'With Spider-Man''s identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear.'),
+('Titanic', 7, 4, '/images/titanic.jpg', 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.'),
+('The Matrix', 6, 5, '/images/matrix.jpg', 'When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.'),
+('Joker', 4, 3, '/images/joker.jpg', 'In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: the Joker.');
+
+-- Insert Actors
+INSERT INTO Actor (Nama_Actor) VALUES
+('Leonardo DiCaprio'),
+('Tom Hanks'),
+('Morgan Freeman'),
+('Robert Downey Jr.'),
+('Brad Pitt'),
+('Johnny Depp'),
+('Christian Bale'),
+('Tom Cruise'),
+('Scarlett Johansson'),
+('Jennifer Lawrence'),
+('Emma Watson'),
+('Anne Hathaway'),
+('Chris Hemsworth'),
+('Samuel L. Jackson'),
+('Joaquin Phoenix');
+
+-- Insert Film_Actor relationships
+INSERT INTO Film_Actor (ID_Film, ID_Actor) VALUES
+(1, 7),  -- The Dark Knight - Christian Bale
+(2, 1),  -- Avatar - Leonardo DiCaprio
+(3, 1),  -- Inception - Leonardo DiCaprio
+(4, 3),  -- Shawshank Redemption - Morgan Freeman
+(5, 5),  -- Jurassic Park - Brad Pitt
+(6, 11), -- The Conjuring - Emma Watson
+(7, 12), -- La La Land - Anne Hathaway
+(8, 1),  -- Interstellar - Leonardo DiCaprio
+(9, 13), -- Lord of the Rings - Chris Hemsworth
+(10, 10),-- Frozen - Jennifer Lawrence
+(11, 3), -- The Godfather - Morgan Freeman
+(12, 4), -- Spider-Man - Robert Downey Jr.
+(13, 1), -- Titanic - Leonardo DiCaprio
+(14, 14),-- The Matrix - Samuel L. Jackson
+(15, 15);-- Joker - Joaquin Phoenix
+
+-- Insert additional actor relationships for films with multiple actors
+INSERT INTO Film_Actor (ID_Film, ID_Actor) VALUES
+(1, 4),  -- The Dark Knight - Robert Downey Jr.
+(2, 9),  -- Avatar - Scarlett Johansson
+(3, 12), -- Inception - Anne Hathaway
+(4, 2),  -- Shawshank Redemption - Tom Hanks
+(5, 8),  -- Jurassic Park - Tom Cruise
+(8, 12), -- Interstellar - Anne Hathaway
+(12, 9), -- Spider-Man - Scarlett Johansson
+(13, 11),-- Titanic - Emma Watson
+(14, 6), -- The Matrix - Johnny Depp
+(15, 5); -- Joker - Brad Pitt
+
+-- Insert dummy Admin for testing
+INSERT INTO Admin (username_admin, password_admin) VALUES
+('admin', 'admin123');
+
+-- Insert dummy Pelanggan for testing
+INSERT INTO Pelanggan (username_pelanggan, password_pelanggan) VALUES
+('user1', 'password123'),
+('user2', 'password123'),
+('user3', 'password123');
+
+-- Insert some rental history
+INSERT INTO Penyewaan (Tanggal, ID_Film, ID_Pelanggan, status) VALUES
+(CURRENT_DATE - INTERVAL '5 days', 1, 1, 'RETURNED'),
+(CURRENT_DATE - INTERVAL '3 days', 2, 1, 'ACTIVE'),
+(CURRENT_DATE - INTERVAL '4 days', 3, 2, 'ACTIVE'),
+(CURRENT_DATE - INTERVAL '7 days', 4, 2, 'RETURNED'),
+(CURRENT_DATE - INTERVAL '2 days', 5, 3, 'ACTIVE'),
+(CURRENT_DATE - INTERVAL '6 days', 6, 3, 'RETURNED');
+
+-- Update some return dates for returned films
+UPDATE Penyewaan 
+SET Tanggal_Kembali = Tanggal + INTERVAL '3 days'
+WHERE status = 'RETURNED';
+
+UPDATE Film SET Foto_Cover = '/images/films/dark_knight.jpg' WHERE Nama_Film = 'The Dark Knight';
+UPDATE Film SET Foto_Cover = '/images/films/avatar.jpg' WHERE Nama_Film = 'Avatar';
+UPDATE Film SET Foto_Cover = '/images/films/inception.jpg' WHERE Nama_Film = 'Inception';
+UPDATE Film SET Foto_Cover = '/images/films/shawshank.jpg' WHERE Nama_Film = 'The Shawshank Redemption';
+UPDATE Film SET Foto_Cover = '/images/films/jurassic_park.jpg' WHERE Nama_Film = 'Jurassic Park';
+UPDATE Film SET Foto_Cover = '/images/films/conjuring.jpg' WHERE Nama_Film = 'The Conjuring';
+UPDATE Film SET Foto_Cover = '/images/films/la_la_land.jpg' WHERE Nama_Film = 'La La Land';
+UPDATE Film SET Foto_Cover = '/images/films/interstellar.jpg' WHERE Nama_Film = 'Interstellar';
+UPDATE Film SET Foto_Cover = '/images/films/lotr.jpg' WHERE Nama_Film = 'The Lord of the Rings';
+UPDATE Film SET Foto_Cover = '/images/films/frozen.jpg' WHERE Nama_Film = 'Frozen';
+UPDATE Film SET Foto_Cover = '/images/films/godfather.jpg' WHERE Nama_Film = 'The Godfather';
+UPDATE Film SET Foto_Cover = '/images/films/spiderman.jpg' WHERE Nama_Film = 'Spider-Man: No Way Home';
+UPDATE Film SET Foto_Cover = '/images/films/titanic.jpg' WHERE Nama_Film = 'Titanic';
+UPDATE Film SET Foto_Cover = '/images/films/matrix.jpg' WHERE Nama_Film = 'The Matrix';
+UPDATE Film SET Foto_Cover = '/images/films/joker.jpg' WHERE Nama_Film = 'Joker';

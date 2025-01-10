@@ -1,0 +1,63 @@
+<!-- about.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>About Us - RENTAL-FILM</title>
+   <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+   <header class="header">
+       <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
+       <div class="profile-menu">
+           <span class="welcome-message">Welcome, <span th:text="${session.username}">User</span></span>
+           <div class="profile-dropdown">
+               <button class="dropdown-toggle">
+                   <i class="fas fa-user-circle profile-icon"></i>
+               </button>
+               <ul class="dropdown-menu">
+                   <li><a th:href="@{/history}">History</a></li>
+                   <li><a th:href="@{/rental/active}">Active Rentals</a></li>
+                   <li><a th:href="@{/logout}">Logout</a></li>
+               </ul>
+           </div>
+       </div>
+   </header>
+
+   <div class="about-content">
+       <div class="about-section">
+           <h2>About RENTAL-FILM</h2>
+           <p>RENTAL-FILM is your premier destination for movie rentals. Established in 2024, we provide a vast collection of movies across all genres, ensuring entertainment for everyone.</p>
+           
+           <div class="vision-mission">
+               <div>
+                   <h3>Vision</h3>
+                   <p>To be the leading film rental service, providing quality entertainment accessible to all movie enthusiasts.</p>
+               </div>
+               <div>
+                   <h3>Mission</h3>
+                   <p>To deliver an exceptional movie rental experience through a diverse collection, user-friendly platform, and excellent customer service.</p>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <script>
+       // Dropdown functionality
+       const dropdownToggle = document.querySelector('.dropdown-toggle');
+       const dropdownMenu = document.querySelector('.dropdown-menu');
+
+       dropdownToggle.addEventListener('click', function(e) {
+           e.stopPropagation();
+           dropdownMenu.classList.toggle('active');
+       });
+
+       document.addEventListener('click', function(e) {
+           if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+               dropdownMenu.classList.remove('active');
+           }
+       });
+   </script>
+</body>
+</html>
