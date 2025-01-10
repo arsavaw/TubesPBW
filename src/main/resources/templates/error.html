@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - RENTAL-FILM</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+    <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
+
+    <div class="error-container">
+        <h1>Oops! Something went wrong</h1>
+        <p th:text="${error}">An error occurred.</p>
+        <a th:href="@{/home}" class="return-btn">Return to Home</a>
+    </div>
+</body>
+</html>

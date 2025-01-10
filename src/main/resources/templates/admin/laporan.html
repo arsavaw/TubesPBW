@@ -1,140 +1,147 @@
 <!DOCTYPE html>
-<html lang="id">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Penyewaan - RENTAL-FILM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>Insert Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #141414;
-            color: #fff;
-            min-height: 100vh;
-        }
-
-        .container {
-            position: relative;
-            padding: 2rem;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .glass-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            z-index: 0;
-        }
-
-        h1 {
-            color: #fff;
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1200px;
-            position: relative;
-            z-index: 1;
-            padding: 0 1rem;
-        }
-
-        .card {
-            background: #b20710;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            display: block;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 15px rgba(26, 115, 232, 0.2);
-            background: #b20710;
-            color: #fff;
-        }
-
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .back-button {
-            margin-top: 3rem;
-            padding: 0.75rem 1.5rem;
-            background-color: #b20710;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-button:hover {
-            background-color: #b20710;
-            color: #fff;
-            transform: translateY(-10px);
-            box-shadow: 0 8px 15px rgba(26, 115, 232, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-                margin-bottom: 2rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
-    <div class="container">
-        <div class="glass-effect"></div>
-        
-        <h1>Dashboard Laporan</h1>
-        
-        <div class="grid-container">
-            <a href="{{ url_for('laporan_transaksi') }}" class="card float-animation">
-                Laporan Transaksi
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="/admin" class="sidebar-brand">RENTAL-FILM</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="/admin" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                Dashboard
             </a>
-            
-            <a href="{{ url_for('grafik_penyewaan') }}" class="card float-animation" style="animation-delay: 0.2s;">
-                Grafik Penyewaan
+            <a href="/admin/tambah" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah
+            </a>
+            <a href="/admin/grafik" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                </svg>
+                Grafik
+            </a>
+            <a href="/admin/laporan" class="menu-item active">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Laporan
             </a>
         </div>
-        
-        <a href="{{ url_for('dashboard_admin') }}" class="back-button">Back to Dashboard</a>
-    </div>
+        <a href="/admin/logout" class="logout-btn">
+            Logout
+        </a>
+    </nav>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Laporan Penyewaan</h1>
+            <div class="user-menu">
+                <span th:text="${session.adminUsername}">Admin</span>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Statistics Cards -->
+            <div class="report-grid">
+                <div class="stat-card">
+                    <h3 th:text="${summary != null ? summary.total_rentals : '0'}">0</h3>
+                    <p>Total Penyewaan</p>
+                </div>
+                <div class="stat-card">
+                    <h3 th:text="${summary != null ? summary.total_customers : '0'}">0</h3>
+                    <p>Total Pelanggan</p>
+                </div>
+                <div class="stat-card">
+                    <h3 th:text="${summary != null ? summary.total_films : '0'}">0</h3>
+                    <p>Total Film</p>
+                </div>
+                <div class="stat-card">
+                    <h3 th:text="${summary != null ? summary.active_rentals : '0'}">0</h3>
+                    <p>Penyewaan Aktif</p>
+                </div>
+            </div>
+
+            <!-- Monthly Reports -->
+            <div class="report-section">
+                <h2>Laporan Bulanan</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Periode</th>
+                            <th>Total Penyewaan</th>
+                            <th>Aktif</th>
+                            <th>Selesai</th>
+                            <th>Jumlah Pelanggan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${reports == null || reports.empty}">
+                            <td colspan="5" style="text-align: center;">Tidak ada data</td>
+                        </tr>
+                        <tr th:each="report : ${reports}">
+                            <td>
+                                <span th:switch="${report.Bulan}">
+                                    <span th:case="1">Januari</span>
+                                    <span th:case="2">Februari</span>
+                                    <span th:case="3">Maret</span>
+                                    <span th:case="4">April</span>
+                                    <span th:case="5">Mei</span>
+                                    <span th:case="6">Juni</span>
+                                    <span th:case="7">Juli</span>
+                                    <span th:case="8">Agustus</span>
+                                    <span th:case="9">September</span>
+                                    <span th:case="10">Oktober</span>
+                                    <span th:case="11">November</span>
+                                    <span th:case="12">Desember</span>
+                                </span>
+                                <span th:text="' ' + ${report.Tahun}">2024</span>
+                            </td>
+                            <td th:text="${report.total_penyewaan}">0</td>
+                            <td th:text="${report.active_count}">0</td>
+                            <td th:text="${report.returned_count}">0</td>
+                            <td th:text="${report.unique_customers}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Top Customers -->
+            <div class="report-section">
+                <h2>Pelanggan Teratas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Total Penyewaan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${topCustomers == null || topCustomers.empty}">
+                            <td colspan="2" style="text-align: center;">Tidak ada data</td>
+                        </tr>
+                        <tr th:each="customer : ${topCustomers}">
+                            <td th:text="${customer.username_pelanggan}">user1</td>
+                            <td th:text="${customer.rental_count}">10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="action-buttons">
+                <a th:href="@{/admin/laporan/download}" class="btn btn-primary">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

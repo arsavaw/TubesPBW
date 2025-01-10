@@ -1,14 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Genre</title>
+    <title>Add Genre</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/add.css}">
 </head>
 <body>
-    <h1>Tambah Genre</h1>
-    <form>
-        <p>Nama Genre: </p>
-    </form>
+    <div class="container">
+        <h1>Add Genre</h1>
+        
+        <div class="form-container">
+            <form th:action="@{/admin/add-genre}" th:object="${genre}" method="post">
+                <div class="form-group">
+                    <input type="text" th:field="*{Nama_Genre}" class="form-control" placeholder="Genre Name">
+                    <span class="error" th:if="${#fields.hasErrors('Nama_Genre')}" th:errors="*{Nama_Genre}"></span>
+                </div>
+                <button type="submit" class="back-button">Add Genre</button>
+            </form>
+        </div>
+        
+        <div th:if="${success}" class="notification">
+            Genre successfully added!
+        </div>
+        <a href="/admin/tambah" class="back-button1">Back</a>
+    </div>
+
+
+    <script th:if="${success}">
+        // Reset input field
+        document.querySelector('input[name="Nama_Genre"]').value = '';
+        
+        // Sembunyikan notifikasi setelah 3 detik
+        setTimeout(function() {
+            const notification = document.querySelector('.notification');
+            if (notification) {
+                notification.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+    
+</script>
 </body>
 </html>

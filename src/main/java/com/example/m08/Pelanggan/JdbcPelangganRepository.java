@@ -22,9 +22,14 @@ public class JdbcPelangganRepository implements PelangganRepository {
 
     @Override
     public Optional<Pelanggan> findByUsername(String username) {
-        String sql = "SELECT * FROM Pelanggan WHERE username_pelanggan = ?";
-        List<Pelanggan> results = jdbcTemplate.query(sql, this::mapRowToPelanggan, username);
-        return results.size() == 0 ? Optional.empty() : Optional.of(results.get(0));
+        try {
+            String sql = "SELECT * FROM Pelanggan WHERE username_pelanggan = ?";
+            List<Pelanggan> results = jdbcTemplate.query(sql, this::mapRowToPelanggan, username);
+            return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     private Pelanggan mapRowToPelanggan(ResultSet resultSet, int rowNum) throws SQLException {

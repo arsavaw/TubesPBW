@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RENTAL-FILM Sign Up</title>
-    <link rel="stylesheet" href="/signup.css">
+    <link rel="stylesheet" th:href="@{/signup.css}">
 </head>
 <body>
+    <div th:if="${param.success}" class="notification">
+        Signup Berhasil!
+    </div>
+
     <div class="header-outside">
         <h1>RENTAL-FILM</h1>
     </div>
@@ -14,46 +18,41 @@
     <div class="login-container">
         <div class="login-box">
             <h1>Create Account</h1>
-            <form action="/register" method="post">
-                <input type="text" name="username_pelanggan" placeholder="Username" required>
-                <input type="password" name="password_pelanggan" placeholder="Password" required>
-                <input type="password" name="confirmPassword" placeholder="Confirm Password" required> <!-- confirmPassword -->
-                <button type="submit">Sign Up</button>
-                <div class="options">
-                    <div>
-                        <label for="agree-terms">I agree to the terms and conditions</label>
-                    </div>
+            <form th:action="@{/register}" method="post" th:object="${pelanggan}">
+                <input type="text" th:field="*{username_pelanggan}" placeholder="Username" required>
+                <div th:if="${#fields.hasErrors('username_pelanggan')}" class="error-message" 
+                     th:errors="*{username_pelanggan}"></div>
+                
+                <input type="password" th:field="*{password_pelanggan}" placeholder="Password" required>
+                <div th:if="${#fields.hasErrors('password_pelanggan')}" class="error-message" 
+                     th:errors="*{password_pelanggan}"></div>
+
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <div th:if="${errorConfirmPassword}" class="error-message">
+                    Password and Confirm Password do not match.
                 </div>
+     
+                <button type="submit">Sign Up</button>
             </form>
 
-            <!-- Notifikasi sukses -->
-            <div id="successNotification" class="notification" style="display:none;">
+            <div th:if="${param.success}" class="success-message">
                 Registration successful!
             </div>
 
             <div class="sign-up">
-                <p>Already have an account? <a href="/login">Sign In</a></p>
+                <p>Already have an account? <a th:href="@{/login}">Sign In</a></p>
             </div>
         </div>
     </div>
 
     <script>
-        // Cek jika ada parameter "success" yang diteruskan dalam URL
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const success = urlParams.get('success'); // Mengambil parameter 'success' dari URL
-
-            // Jika berhasil register, tampilkan notifikasi
-            if (success === 'true') {
-                const notification = document.getElementById('successNotification');
-                notification.style.display = 'block'; // Tampilkan notifikasi
-
-                // Sembunyikan notifikasi setelah 3 detik
-                setTimeout(function() {
-                    notification.style.display = 'none';
-                }, 3000);
+        setTimeout(() => {
+            const notification = document.querySelector('.notification');
+            if (notification) {
+                notification.style.display = 'none';
             }
-        }
+        }, 3000); // Menghilang setelah 3 detik
     </script>
+    
 </body>
 </html>

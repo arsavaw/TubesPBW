@@ -1,18 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Film</title>
+    <title>Add Film</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/add.css}">
 </head>
 <body>
-    <h3>Tambah Film</h3>
-    <form>
-        <p>Nama Film: </p>
-        <p>Genre: </p>
-        <p>Actor: </p>
-        <p>Stok: </p>
-        <p>Upload Cover Film</p>
-    </form>
+    <div class="container">
+        <h1>Add Film</h1>
+        
+        <div class="form-container">
+            <form th:action="@{/admin/add-film}" th:object="${film}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" th:field="*{Nama_Film}" class="form-control" placeholder="Film Name">
+                    <span class="error" th:if="${#fields.hasErrors('Nama_Film')}" th:errors="*{Nama_Film}"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <textarea th:field="*{DeskripsiFilm}" class="form-control" placeholder="Film Description" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <select th:field="*{ID_Genre}" class="form-control">
+                        <option value="">Select Genre</option>
+                        <option th:each="genre : ${genres}" 
+                                th:value="${genre.ID_Genre}" 
+                                th:text="${genre.Nama_Genre}"></option>
+                    </select>
+                    <span class="error" th:if="${#fields.hasErrors('ID_Genre')}" th:errors="*{ID_Genre}"></span>
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" th:field="*{Stok}" class="form-control" placeholder="Stock">
+                    <span class="error" th:if="${#fields.hasErrors('Stok')}" th:errors="*{Stok}"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Actors</label>
+                    <div id="actor-container">
+                        <div class="actor-row">
+                            <select name="actorIds" class="form-control actor-select">
+                                <option value="">Select Actor</option>
+                                <option th:each="actor : ${actors}" 
+                                        th:value="${actor.ID_Actor}" 
+                                        th:text="${actor.Nama_Actor}"></option>
+                            </select>
+                            <button type="button" class="btn-add-actor">+</button>
+                            <button type="button" class="btn-remove-actor" style="display: none;">-</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="file" name="coverFile" class="form-control" accept="image/*">
+                </div>
+                
+                <button type="submit" class="back-button">Add Film</button>
+            </form>
+        </div>
+        <div th:if="${success}" class="notification">
+            Film successfully added!
+        </div>
+        <a href="/admin/tambah" class="back-button1">Back</a>
+    </div>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const actorContainer = document.getElementById('actor-container');
+    const form = document.querySelector('form');
+
+    // Function to create new actor row
+    function createActorRow() {
+        const row = document.createElement('div');
+        row.className = 'actor-row';
+        
+        // Clone the first select element to get all the options
+        const select = actorContainer.querySelector('select').cloneNode(true);
+        select.value = ''; // Reset selection
+        select.name = 'actorIds'; // Maintain the name attribute
+        
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'btn-add-actor';
+        addBtn.textContent = '+';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn-remove-actor';
+        removeBtn.textContent = '-';
+        
+        row.appendChild(select);
+        row.appendChild(addBtn);
+        row.appendChild(removeBtn);
+        
+        return row;
+    }
+
+    // Function to reset form inputs
+    function resetFormInputs() {
+        // Reset text input (Film Name)
+        const filmNameInput = document.querySelector('input[name="Nama_Film"]');
+        if (filmNameInput) filmNameInput.value = '';
+
+
+        const descriptionTextarea = document.querySelector('textarea[name="DeskripsiFilm"]');
+    if (descriptionTextarea) descriptionTextarea.value = '';
+
+
+        // Reset genre select
+        const genreSelect = document.querySelector('select[name="ID_Genre"]');
+        if (genreSelect) genreSelect.value = '';
+
+        // Reset stock input
+        const stockInput = document.querySelector('input[name="Stok"]');
+        if (stockInput) stockInput.value = '';
+
+        // Reset actor container to just one row
+        if (actorContainer) {
+            // Remove all additional actor rows
+            while (actorContainer.children.length > 1) {
+                actorContainer.removeChild(actorContainer.lastChild);
+            }
+            
+            // Reset the first actor select
+            const firstActorSelect = actorContainer.querySelector('select');
+            if (firstActorSelect) firstActorSelect.value = '';
+
+            // Hide remove button on first row
+            const removeBtn = actorContainer.querySelector('.btn-remove-actor');
+            if (removeBtn) removeBtn.style.display = 'none';
+        }
+
+        // Reset file input
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) fileInput.value = '';
+    }
+
+    // Event delegation for handling button clicks
+    actorContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-add-actor')) {
+            const newRow = createActorRow();
+            actorContainer.appendChild(newRow);
+            
+            // Show all remove buttons when there's more than one row
+            const removeButtons = actorContainer.querySelectorAll('.btn-remove-actor');
+            removeButtons.forEach(btn => btn.style.display = 'block');
+        }
+        
+        if (e.target.classList.contains('btn-remove-actor')) {
+            const rows = actorContainer.querySelectorAll('.actor-row');
+            if (rows.length > 1) {
+                e.target.closest('.actor-row').remove();
+                
+                // If only one row remains, hide its remove button
+                if (rows.length === 2) {
+                    const lastRemoveBtn = actorContainer.querySelector('.btn-remove-actor');
+                    if (lastRemoveBtn) {
+                        lastRemoveBtn.style.display = 'none';
+                    }
+                }
+            }
+        }
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        // Update name attribute for all selects to create an array
+        const selects = actorContainer.querySelectorAll('select');
+        selects.forEach((select, index) => {
+            select.name = 'actorIds';
+        });
+    });
+
+    // Check for success notification and reset form
+    if (document.querySelector('.notification')) {
+        resetFormInputs();
+        
+        setTimeout(function() {
+            const notification = document.querySelector('.notification');
+            if (notification) {
+                notification.style.display = 'none';
+            }
+        }, 3000);
+    }
+});
+    </script>
+    
 </body>
 </html>
+
+
+
+
+
+

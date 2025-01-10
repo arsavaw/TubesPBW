@@ -1,68 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History Tontonan</title>
-    <link rel="stylesheet" href="/history.css">
+    <title>Rental History - RENTAL-FILM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
+    <header class="header">
+        <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
+        <div class="profile-menu">
+            <span class="welcome-message">Welcome, <span th:text="${session.username}">User</span></span>
+            <div class="profile-dropdown">
+                <button class="dropdown-toggle">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a th:href="@{/history}" class="active">History</a></li>
+                    <li><a th:href="@{/rental/active}">Active Rentals</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
-<!-- Logo or Title -->
-<a href="/home" class="logo">RENTAL-FILM</a>
+    <div class="history-content">
+        <h1>Rental History</h1>
 
-<!-- History Tontonan Section -->
-<div class="content">
-    <h2>History Tontonan</h2>
+        <!-- Status Summary -->
+        <div class="status-summary">
+            <div class="status-card">
+                <h3 th:text="${activeCount}">0</h3>
+                <p>Active Rentals</p>
+            </div>
+            <div class="status-card">
+                <h3 th:text="${returnedCount}">0</h3>
+                <p>Returned</p>
+            </div>
+            <div class="status-card">
+                <h3 th:text="${totalCount}">0</h3>
+                <p>Total Rentals</p>
+            </div>
+        </div>
 
-    <!-- Search Form -->
-    <div class="search-container">
-        <input type="number" id="day" placeholder="Tanggal" class="search-input">
-        <input type="number" id="month" placeholder="Bulan" class="search-input">
-        <input type="number" id="year" placeholder="Tahun" class="search-input">
-        <button class="reset-btn" id="resetBtn">reset</button>
-        <button class="search-btn" id="searchBtn">Search</button>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Rental Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="rental : ${rentals}">
+                    <td>
+                        <div class="movie-info">
+                            <div class="movie-poster">
+                                <img th:src="@{${rental.Foto_Cover}}" th:alt="${rental.Nama_Film}">
+                            </div>
+                            <div>
+                                <div th:text="${rental.Nama_Film}">Movie Title</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:text="${#dates.format(rental.Tanggal, 'dd MMM yyyy')}">01 Jan 2024</td>
+                    <td th:text="${rental.Tanggal_Kembali != null ? #dates.format(rental.Tanggal_Kembali, 'dd MMM yyyy') : '-'}">-</td>
+                    <td>
+                        <span class="status-badge" 
+                              th:class="${'status-badge ' + 
+                                       (rental.status == 'ACTIVE' ? 'status-active' : 
+                                        rental.status == 'RETURNED' ? 'status-returned' : 
+                                        'status-overdue')}"
+                              th:text="${rental.status}">Status</span>
+                    </td>
+                    <td>
+                        <form th:if="${rental.status == 'ACTIVE'}" 
+                              th:action="@{/rental/return/{id}(id=${rental.ID_Penyewaan})}" 
+                              method="post"
+                              style="display: inline;">
+                            <button type="submit" class="action-btn return-btn">Return</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Movie Section -->
-    <div class="movie-section" id="history-section">
-        <!-- Movie Items will be dynamically added here -->
-        <div class="movie">
-            <div class="movie-poster">
-                <img src="https://via.placeholder.com/1500x150" alt="Movie 1 Thumbnail">
-            </div>
-            <div class="movie-content">
-                <div class="movie-title">Movie 1</div>
-                <div class="movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vehicula ex nec orci elementum.</div>
-                <div class="movie-meta">2h 15m | 2023</div>
-            </div>
-        </div>
-        <div class="movie">
-            <div class="movie-poster">
-                <img src="https://via.placeholder.com/1500x150" alt="Movie 2 Thumbnail">
-            </div>
-            <div class="movie-content">
-                <div class="movie-title">Movie 2</div>
-                <div class="movie-description">Donec sollicitudin eros vel mauris facilisis, eu feugiat libero facilisis.</div>
-                <div class="movie-meta">1h 45m | 2022</div>
-            </div>
-        </div>
-        <div class="movie">
-            <div class="movie-poster">
-                <img src="https://via.placeholder.com/1500x150" alt="Movie 3 Thumbnail">
-            </div>
-            <div class="movie-content">
-                <div class="movie-title">Movie 3</div>
-                <div class="movie-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</div>
-                <div class="movie-meta">1h 30m | 2021</div>
-            </div>
-        </div>
+    <div class="back-container">
+        <a th:href="@{/home}" class="back-btn">Back to Home</a>
     </div>
-</div>
 
-<script src="/history.js"></script>
-<script src="/home.js"></script>
+    <script>
+        // Dropdown functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
 
+        dropdownToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        // Filters functionality
+        document.getElementById('status').addEventListener('change', filterHistory);
+        document.getElementById('sort').addEventListener('change', filterHistory);
+
+        function filterHistory() {
+            // Implement filtering logic here
+            const status = document.getElementById('status').value;
+            const sort = document.getElementById('sort').value;
+            // You can add AJAX call here to reload the table with filters
+        }
+    </script>
 </body>
 </html>

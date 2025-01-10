@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Rentals - RENTAL-FILM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+    <header class="header">
+        <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
+        <div class="profile-menu">
+            <span class="welcome-message">Welcome, <span th:text="${session.username}">User</span></span>
+            <div class="profile-dropdown">
+                <button class="dropdown-toggle">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a th:href="@{/history}">History</a></li>
+                    <li><a th:href="@{/rental/active}" class="active">Active Rentals</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <h2>Active Rentals</h2>
+        
+        <div class="alert success" th:if="${success}" th:text="${success}"></div>
+        <div class="alert error" th:if="${error}" th:text="${error}"></div>
+
+        <div th:if="${#lists.isEmpty(activeRentals)}" class="no-rentals">
+            <p>You don't have any active rentals.</p>
+            <a th:href="@{/home}" class="browse-btn">Browse Movies</a>
+        </div>
+        
+        <div class="movie-section">
+            <div th:each="rental : ${activeRentals}" class="movie">
+                <img th:src="@{${rental.Foto_Cover}}" th:alt="${rental.Nama_Film}">
+                <div class="movie-info">
+                    <h3 th:text="${rental.Nama_Film}">Movie Title</h3>
+                    <p th:text="${rental.DeskripsiFilm}">Description</p>
+                    <p class="rental-date">
+                        Rented on: <span th:text="${#dates.format(rental.Tanggal, 'dd-MM-yyyy')}">Date</span>
+                    </p>
+                    <form th:action="@{/rental/return/{id}(id=${rental.ID_Penyewaan})}" method="post">
+                        <button type="submit" class="return-btn">Return Film</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-container">
+        <a th:href="@{/home}" class="back-btn">Back to Home</a>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        dropdownToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

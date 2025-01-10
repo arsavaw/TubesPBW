@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Actor</title>
+    <title>Add Actor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/add.css}">
 </head>
 <body>
-    <h3>Tambah Actor</h3>
-    <form>
-        <p>Nama Actor: </p>
-    </form>
+    <div class="container">
+        <div class="glass-effect"></div>
+        <h1>Add Actor</h1>
+        
+        <div class="form-container">
+            <form th:action="@{/admin/add-actor}" th:object="${actor}" method="post">
+                <div class="form-group">
+                    <input type="text" th:field="*{Nama_Actor}" class="form-control" placeholder="Actor Name">
+                    <span class="error" th:if="${#fields.hasErrors('Nama_Actor')}" th:errors="*{Nama_Actor}"></span>
+                </div>
+                <button type="submit" class="back-button">Add Actor</button>
+            </form>
+        </div>
+        <!-- Notifikasi sukses -->
+<div th:if="${success}" class="notification">
+    Actor successfully added!
+</div>
+        <a href="/admin/tambah" class="back-button1">Back</a>
+    </div>
+    
+    <script th:if="${success}">
+        // Reset input field
+        document.querySelector('input[name="Nama_Actor"]').value = '';
+        
+        // Sembunyikan notifikasi setelah 3 detik
+        setTimeout(function() {
+            const notification = document.querySelector('.notification');
+            if (notification) {
+                notification.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 </body>
 </html>

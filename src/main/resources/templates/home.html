@@ -1,139 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Netflix Style Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="/home.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTAL-FILM - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>    
 <body>
+    <header class="header">
+        <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
+        <div class="menu">
+            <a th:href="@{/about}" class="search-btn">About Us</a>
+            <button id="search-toggle" class="search-btn"><i class="fas fa-search"></i> Search</button>
+        </div>
+        <div class="profile-menu">
+            <span class="welcome-message">Welcome, <span th:text="${session.username}">User</span></span>
+            <div class="profile-dropdown">
+                <button class="dropdown-toggle">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a th:href="@{/history}">History</a></li>
+                    <li><a th:href="@{/rental/active}">Active Rentals</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    
 
-  <!-- Logo or Title -->
-<a href="/home" class="logo">RENTAL-FILM</a>
-
-<!-- Welcome Message -->
-<div class="welcome-message">
-  <h2>Welcome <span th:text="${username}"></span></h2>
-</div>
-
-
-<!-- Navbar -->
-<div class="navbar">
-  <ul class="nav-links">
-    <li><a href="/home">Home</a></li>
-    <li><a href="/history">History</a></li>
-    <li>
-      <a href="#" id="search-toggle"><i class="fas fa-search"></i> Search</a>
-    </li>
-  </ul>
-</div>
-
-<!-- Search Form -->
-<div class="search-form" id="search-form">
-  <form action="#" method="GET">
-    <input type="text" name="genre" placeholder="Genre" />
-    <input type="text" name="actor" placeholder="Actor" />
-    <input type="text" name="title" placeholder="Movie Title" />
-    <button type="submit">Search</button>
-  </form>
-</div>
-
-
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <div class="gradient-overlay"></div>
-      <img src="image/jungle-book-wallpaper-1920x1080.jpg" alt="jungle book">
-      <div class="title">THE JUNGLE BOOK</div>
-      <div class="desc">After a threat from the tiger Shere Khan forces him to flee the jungle, a man-cub named Mowgli embarks on a journey of self discovery with the help of panther Bagheera and free-spirited bear Baloo.</div>
-    </div>
-    <div class="swiper-slide">Slide 2</div>
-    <div class="swiper-slide">Slide 3</div>
-    <div class="swiper-slide">Slide 4</div>
-    <div class="swiper-slide">Slide 5</div>
-    <div class="swiper-slide">Slide 6</div>
-    <div class="swiper-slide">Slide 7</div>
-    <div class="swiper-slide">Slide 8</div>
-    <div class="swiper-slide">Slide 9</div>
-  </div>
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-pagination"></div>
-  <div class="autoplay-progress">
-    <span></span>   
-  </div>
-</div>
-
-  <!-- Content -->
-  <div class="content">
-    <!-- Section: My List -->
-    <h2>My List</h2>
-    <div class="movie-section">
-      <!-- Original Movies -->
-      <div class="movie">
-        <img src="image/alien.jpg" alt="Alien">
-        <p>Alien</p>
-        <p class="movie-info">TV Dramas • 2024 • Limited Series • TV-MA</p>
-        <p class="movie-description">Inspired by real events, this fictional dramatization shows Griselda Blanco's journey from Medellín to becoming "the Godmother" of Miami's drug empire.</p>
-      </div>
-      <div class="movie">
-        <img src="image/archer.jpg" alt="ARCHER">
-        <p>ARCHER</p>
-        <p class="movie-info">Drama • Series</p>
-      </div>
-      <div class="movie">
-        <img src="image/hobbit.jpg" alt="HOBBIT">
-        <p>HOBBIT</p>
-        <p class="movie-info">Romance • Series</p>
-      </div>
-      <div class="movie">
-        <img src="image/mission.jpeg" alt="Mission">
-        <p>Spider-Man: Across the Spider-Verse</p>
-        <p class="movie-info">Animation • 2023 • PG</p>
-      </div>
-      <div class="movie">
-        <img src="image/vijay.jpeg" alt="Megatron">
-        <p>Megatron</p>
-        <p class="movie-info">Action • Series</p>
-      </div>
-
-      <!-- Duplicated Movies to Fill the Row -->
-      <div class="movie">
-        <img src="image/alien.jpg" alt="Alien">
-        <p>Alien</p>
-        <p class="movie-info">TV Dramas • 2024 • Limited Series • TV-MA</p>
-        <p class="movie-description">Inspired by real events, this fictional dramatization shows Griselda Blanco's journey from Medellín to becoming "the Godmother" of Miami's drug empire.</p>
-      </div>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <!-- First Slide -->
+            <div class="swiper-slide">
+                <div class="slide-grid">
+                    <div th:each="film, iterStat : ${latestMovies}" 
+                         th:if="${iterStat.index >= 0 and iterStat.index < 5}" 
+                         class="slide-item">
+                        <a th:href="@{/movie/{id}(id=${film.ID_Film})}">
+                            <img th:src="@{${film.Foto_Cover}}" th:alt="${film.Nama_Film}">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Second Slide -->
+            <div class="swiper-slide">
+                <div class="slide-grid">
+                    <div th:each="film, iterStat : ${latestMovies}" 
+                         th:if="${iterStat.index >= 5 and iterStat.index < 10}" 
+                         class="slide-item">
+                        <a th:href="@{/movie/{id}(id=${film.ID_Film})}">
+                            <img th:src="@{${film.Foto_Cover}}" th:alt="${film.Nama_Film}">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
     </div>
 
-    <!-- Section: Continue Watching -->
-    <h2>Continue Watching</h2>
-    <div class="movie-section">
-      <div class="movie">
-        <img src="image/darok-twer.jpeg" alt="Movie 1">
-        <p>Movie 1</p>
-        <p class="movie-info">Comedy • 2022</p>
-      </div>
-      <div class="movie">
-        <img src="image/ragnarok.jpeg" alt="Movie 2">
-        <p>Movie 2</p>
-        <p class="movie-info">Drama • 2021</p>
-      </div>
-      <div class="movie">
-        <img src="image/avatar2.jpeg" alt="Movie 3">
-        <p>Movie 3</p>
-        <p class="movie-info">Thriller • 2020</p>
-      </div>
+    <div id="searchModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Search Movies</h2>
+            <form id="searchForm" th:action="@{/search}" method="GET">
+                <div class="search-input">
+                    <i class="fas fa-film"></i>
+                    <input type="text" name="title" id="title" placeholder="Movie Title">
+                </div>
+                <div class="search-input">
+                    <i class="fas fa-theater-masks"></i>
+                    <input type="text" name="genre" id="genre" placeholder="Genre">
+                </div>
+                <div class="search-input">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="actor" id="actor" placeholder="Actor">
+                </div>
+                <button type="submit" class="search-submit">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </form>
+            <div id="searchResults" class="search-results">
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Logout Button -->
-  <div class="logout-container">
-    <a href="/logout" class="logout-btn">Logout</a>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="/home.js"></script>
+    <!-- Content -->
+    <div class="content">
+        <!-- Featured Movies Section -->
+        <h2>Featured Movies</h2>
+        <div class="movie-section">
+            <div th:each="film : ${featuredMovies}" class="movie">
+                <img th:src="@{${film.Foto_Cover}}" th:alt="${film.Nama_Film}">
+                <div class="movie-info">
+                    <p class="movie-title" th:text="${film.Nama_Film}">Movie Title</p>
+                    <p class="movie-description" th:text="${film.DeskripsiFilm}">Description</p>
+                    <div class="movie-meta">
+                        <span class="genre" th:text="${film.Nama_Genre}">Genre</span>
+                        <span class="stock" th:text="'Stock: ' + ${film.Stok}">Stock</span>
+                    </div>
+                    <form th:if="${film.Stok > 0}" th:action="@{/movie/{filmId}(filmId=${film.ID_Film})}" method="get">
+                        <button type="submit" class="rent-btn">View Details</button>
+                    </form>                    
+                    <p th:if="${film.Stok <= 0}" class="out-of-stock">Currently Unavailable</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Latest Movies Section -->
+        <h2>Latest Movies</h2>
+        <div class="movie-section">
+            <div th:each="film : ${latestMovies}" class="movie">
+                <img th:src="@{${film.Foto_Cover}}" th:alt="${film.Nama_Film}">
+                <div class="movie-info">
+                    <p class="movie-title" th:text="${film.Nama_Film}">Movie Title</p>
+                    <p class="movie-description" th:text="${film.DeskripsiFilm}">Description</p>
+                    <div class="movie-meta">
+                        <span class="genre" th:text="${film.Nama_Genre}">Genre</span>
+                        <span class="stock" th:text="'Stock: ' + ${film.Stok}">Stock</span>
+                    </div>
+                    <form th:if="${film.Stok > 0}" th:action="@{/movie/{filmId}(filmId=${film.ID_Film})}" method="get">
+                        <button type="submit" class="rent-btn">View Details</button>
+                    </form>  
+                    <p th:if="${film.Stok <= 0}" class="out-of-stock">Currently Unavailable</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/home.js"></script>
 </body>
 </html>

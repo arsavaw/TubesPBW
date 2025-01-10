@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik Penyewaan - RENTAL-FILM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<style>
+    /* Gaya untuk grafik penyewaan per bulan */
+.rental-chart {
+  background-color: #141414;
+}
+
+.rental-chart .line {
+  stroke: #ffcc00;
+  stroke-width: 2px;
+}
+
+.rental-chart .dot {
+  fill: #ffcc00;
+  stroke: #ffcc00;
+  stroke-width: 2px;
+}
+
+.rental-chart .axis-label {
+  fill: #fff;
+  font-size: 12px;
+}
+
+.rental-chart .axis-line {
+  stroke: #fff;
+}
+
+.rental-chart .grid-line {
+  stroke: #333;
+}
+
+/* Gaya untuk grafik film terpopuler */
+.popular-movies-chart {
+  background-color: #141414;
+}
+
+.popular-movies-chart .bar {
+  fill: #ff6b6b;
+}
+
+.popular-movies-chart .bar:hover {
+  fill: #ff4d4d;
+}
+
+.popular-movies-chart .axis-label {
+  fill: #fff;
+  font-size: 12px;
+}
+
+.popular-movies-chart .axis-line {
+  stroke: #fff;
+}
+
+.popular-movies-chart .grid-line {
+  stroke: #333;
+}
+</style>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="/admin" class="sidebar-brand">RENTAL-FILM</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="/admin" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/admin/tambah" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah
+            </a>
+            <a href="/admin/grafik" class="menu-item active">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                </svg>
+                Grafik
+            </a>
+            <a href="/admin/laporan" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Laporan
+            </a>
+        </div>
+        <a href="/admin/logout" class="logout-btn">Logout</a>
+    </nav>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Grafik Penyewaan</h1>
+            <div class="user-menu">
+                <span th:text="${session.adminUsername}">Admin</span>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="chart-container">
+                <div class="chart-card">
+                    <h2>Penyewaan per Bulan</h2>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+                
+                <div class="chart-card">
+                    <h2>Film Terpopuler</h2>
+                    <canvas id="popularFilmsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script th:inline="javascript">
+        // Data dari controller
+        const monthlyData = /*[[${monthlyRentals}]]*/ {};
+        const popularFilmsData = /*[[${popularFilms}]]*/ {};
+
+        // Monthly rentals chart
+        new Chart(document.getElementById('monthlyChart'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(monthlyData),
+                datasets: [{
+                    label: 'Jumlah Penyewaan',
+                    data: Object.values(monthlyData),
+                    borderColor: '#dc3545',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // Popular films chart
+        new Chart(document.getElementById('popularFilmsChart'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(popularFilmsData),
+                datasets: [{
+                    label: 'Jumlah Penyewaan',
+                    data: Object.values(popularFilmsData),
+                    backgroundColor: '#dc3545'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

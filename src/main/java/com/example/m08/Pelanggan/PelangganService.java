@@ -1,9 +1,8 @@
 package com.example.m08.Pelanggan;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class PelangganService {
@@ -13,19 +12,29 @@ public class PelangganService {
 
     public boolean register(Pelanggan pelanggan) {
         try {
-            // Simpan data pelanggan dengan password plaintext
+            Optional<Pelanggan> existingPelanggan = pelangganRepository.findByUsername(pelanggan.getUsername_pelanggan());
+            if (existingPelanggan.isPresent()) {
+                return false;
+            }
             pelangganRepository.save(pelanggan);
             return true;
         } catch (Exception e) {
-            // Tangani jika ada error
+            e.printStackTrace();
             return false;
         }
     }
 
-    public Pelanggan login(String username, String rawPassword) {
-        Optional<Pelanggan> optionalPelanggan = pelangganRepository.findByUsername(username);
-        if (optionalPelanggan.isPresent() && optionalPelanggan.get().getPassword_pelanggan().equals(rawPassword)) {
-            return optionalPelanggan.get();
+    public Pelanggan login(String username, String password) {
+        try {
+            Optional<Pelanggan> optionalPelanggan = pelangganRepository.findByUsername(username);
+            if (optionalPelanggan.isPresent()) {
+                Pelanggan pelanggan = optionalPelanggan.get();
+                if (pelanggan.getPassword_pelanggan().equals(password)) {
+                    return pelanggan;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

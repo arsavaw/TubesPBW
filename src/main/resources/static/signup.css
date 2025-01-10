@@ -49,6 +49,7 @@ body, html {
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    height: 400px;
 }
 
 h1 {
@@ -56,6 +57,18 @@ h1 {
     font-size: 24px;
     color: rgba(255, 255, 255, 0.7);
 }
+.header-outside h1{
+    
+    top: 20px;
+    margin-left: 30px;
+    z-index: 10;
+    font-size: 48px; /* Larger font size */
+    font-weight: bold;
+    color: #e50914;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    letter-spacing: 2px;
+}
+
 
 /* Form Style */
 form {
@@ -121,6 +134,7 @@ button:hover {
     justify-content: center; /* Center the content */
     align-items: center;
     gap: 5px; /* Space between the paragraph and the link */
+    min-height: 120px;
 }
 
 .sign-up p {
@@ -156,4 +170,40 @@ button:hover {
     width: 300px;
     font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.error-message{
+    color: #ff0000;
+}
+
+/* Notification Style */
+.notification {
+    background-color: #4CAF50; /* Hijau untuk sukses */
+    color: white; /* Teks putih */
+    padding: 15px; /* Spasi di dalam elemen */
+    text-align: center; /* Teks di tengah */
+    position: fixed; /* Tetap di tempat saat scrolling */
+    top: 10%; /* Jarak dari atas */
+    left: 50%; /* Pusatkan secara horizontal */
+    transform: translateX(-50%); /* Pusatkan di tengah secara visual */
+    z-index: 1000; /* Pastikan di atas elemen lain */
+    border-radius: 5px; /* Sudut melengkung */
+    width: 300px; /* Lebar notifikasi */
+    font-size: 16px; /* Ukuran font */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bayangan */
+    animation: fadeOut 3s forwards; /* Animasi keluar setelah 3 detik */
+}
+
+/* Animasi untuk menghilangkan notifikasi */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1; /* Tetap terlihat sebagian besar waktu */
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
