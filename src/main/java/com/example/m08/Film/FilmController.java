@@ -28,14 +28,20 @@ public class FilmController {
         model.addAttribute("movie", film);
         return "movie-details";
     }
-    
+
     @GetMapping("/search")
-    public ResponseEntity<List<Film>> searchMovies(
+    public String searchMovies(
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String actor,
-            @RequestParam(required = false) String title) {
-        
+            @RequestParam(required = false) String title,
+            Model model) {
+
+        model.addAttribute("genre", genre);
+        model.addAttribute("actor", actor);
+        model.addAttribute("title", title);
         List<Film> results = filmService.searchFilms(genre, actor, title);
-        return ResponseEntity.ok(results);
+        model.addAttribute("movies", results);
+        return "search-results";
     }
+
 }

@@ -61,33 +61,32 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-pagination"></div>
-    </div>
 
-    <div id="searchModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Search Movies</h2>
-            <form id="searchForm" th:action="@{/search}" method="GET">
-                <div class="search-input">
-                    <i class="fas fa-film"></i>
-                    <input type="text" name="title" id="title" placeholder="Movie Title">
-                </div>
-                <div class="search-input">
-                    <i class="fas fa-theater-masks"></i>
-                    <input type="text" name="genre" id="genre" placeholder="Genre">
-                </div>
-                <div class="search-input">
-                    <i class="fas fa-user"></i>
-                    <input type="text" name="actor" id="actor" placeholder="Actor">
-                </div>
-                <button type="submit" class="search-submit">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </form>
-            <div id="searchResults" class="search-results">
+        <div id="searchModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Search Movies</h2>
+                <form th:action="@{/search}" method="GET">
+                    <div class="search-input">
+                        <i class="fas fa-film"></i>
+                        <input type="text" name="title" id="title" placeholder="Movie Title">
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-theater-masks"></i>
+                        <input type="text" name="genre" id="genre" placeholder="Genre">
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="actor" id="actor" placeholder="Actor">
+                    </div>
+                    <button type="submit" class="search-submit">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </form>
             </div>
         </div>
     </div>
+
 
     <!-- Content -->
     <div class="content">
