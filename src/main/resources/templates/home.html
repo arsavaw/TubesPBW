@@ -102,7 +102,9 @@
                     <div class="movie-meta">
                         <span class="genre" th:text="${film.Nama_Genre}">Genre</span>
                         <span class="stock" th:text="'Stock: ' + ${film.Stok}">Stock</span>
+                        <span class="price" th:text="'Price: Rp ' + ${film.harga}">Price: Rp XX.XX</span>
                     </div>
+                    
                     <form th:if="${film.Stok > 0}" th:action="@{/movie/{filmId}(filmId=${film.ID_Film})}" method="get">
                         <button type="submit" class="rent-btn">View Details</button>
                     </form>                    
@@ -122,6 +124,7 @@
                     <div class="movie-meta">
                         <span class="genre" th:text="${film.Nama_Genre}">Genre</span>
                         <span class="stock" th:text="'Stock: ' + ${film.Stok}">Stock</span>
+                        <span class="price" th:text="'Price: Rp ' + ${film.harga}">Price: Rp XX.XX</span>
                     </div>
                     <form th:if="${film.Stok > 0}" th:action="@{/movie/{filmId}(filmId=${film.ID_Film})}" method="get">
                         <button type="submit" class="rent-btn">View Details</button>

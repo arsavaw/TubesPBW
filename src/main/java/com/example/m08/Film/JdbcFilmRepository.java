@@ -163,6 +163,7 @@ public class JdbcFilmRepository implements FilmRepository {
         film.setNama_Film(rs.getString("Nama_Film"));
         film.setID_Genre(rs.getInt("ID_Genre"));
         film.setStok(rs.getInt("Stok"));
+        film.setHarga(rs.getDouble("harga"));
         film.setFoto_Cover(rs.getString("Foto_Cover"));
         film.setDeskripsiFilm(rs.getString("DeskripsiFilm"));
         film.setNama_Genre(rs.getString("Nama_Genre"));
@@ -217,6 +218,7 @@ public class JdbcFilmRepository implements FilmRepository {
                 film.setStok(rs.getInt("Stok"));
                 film.setFoto_Cover(rs.getString("Foto_Cover"));
                 film.setDeskripsiFilm(rs.getString("DeskripsiFilm"));
+                film.setHarga(rs.getDouble("harga"));
                 filmMap.put(filmId, film);
             }
             
