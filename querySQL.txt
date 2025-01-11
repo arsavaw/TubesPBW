@@ -62,6 +62,8 @@ ADD COLUMN DeskripsiFilm VARCHAR(255);
 ALTER TABLE Penyewaan
 ADD COLUMN status VARCHAR(255);
 
+ALTER TABLE Film ADD COLUMN Video_Path VARCHAR(255);
+
 -- Insert Genres
 INSERT INTO Genre (Nama_Genre) VALUES 
 ('Action'),
