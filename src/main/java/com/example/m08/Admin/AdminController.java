@@ -99,45 +99,60 @@ public class AdminController {
 
 
     @PostMapping("/admin/add-film")
-    public String addFilm(@Valid @ModelAttribute Film film, 
+    public String addFilm(@Valid @ModelAttribute Film film,
                          BindingResult result,
-                         @RequestParam("coverFile") MultipartFile file,
+                         @RequestParam("coverFile") MultipartFile coverFile,
+                         @RequestParam("videoFile") MultipartFile videoFile,
                          Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute("genres", genreRepository.findAll());
             model.addAttribute("actors", actorRepository.findAll());
             return "admin/add_film";
         }
-        
-        if (!file.isEmpty()) {
+    
+        // Handle cover file upload
+        if (!coverFile.isEmpty()) {
             String uploadDir = "src/main/resources/static/covers/";
-            String originalFilename = file.getOriginalFilename();
-            String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String baseFilename = originalFilename.substring(0, originalFilename.lastIndexOf("."));
-            
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            
-            // Generate unique filename
-            String filename = originalFilename;
-            int counter = 1;
-            while (Files.exists(Paths.get(uploadDir + filename))) {
-                filename = baseFilename + "(" + counter + ")" + fileExtension;
-                counter++;
-            }
-            
-            // Save the file with unique name
-            Files.copy(file.getInputStream(), Paths.get(uploadDir + filename));
-            film.setFoto_Cover("/images/films/" + filename);
+            String filename = handleFileUpload(coverFile, uploadDir);
+            film.setFoto_Cover("/covers/" + filename);
         }
-        
+    
+        // Handle video file upload
+        if (!videoFile.isEmpty()) {
+            String uploadDir = "src/main/resources/static/videos/";
+            String filename = handleFileUpload(videoFile, uploadDir);
+            film.setVideo_Path("/videos/" + filename);
+        }
+    
         filmRepository.save(film);
         model.addAttribute("success", true);
         model.addAttribute("genres", genreRepository.findAll());
         model.addAttribute("actors", actorRepository.findAll());
         return "admin/add_film";
+    }
+    
+    // Helper method untuk handle file upload
+    private String handleFileUpload(MultipartFile file, String uploadDir) throws IOException {
+        String originalFilename = file.getOriginalFilename();
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String baseFilename = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+        
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        
+        // Generate unique filename
+        String filename = originalFilename;
+        int counter = 1;
+        while (Files.exists(Paths.get(uploadDir + filename))) {
+            filename = baseFilename + "(" + counter + ")" + fileExtension;
+            counter++;
+        }
+        
+        // Save the file with unique name
+        Files.copy(file.getInputStream(), Paths.get(uploadDir + filename));
+        return filename;
     }
     @GetMapping("/admin/add-actor")
     public String addActorPage(Model model, HttpSession session) {

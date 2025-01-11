@@ -17,10 +17,11 @@ public class Film {
     private Integer Stok;
     private String Foto_Cover;
     private String DeskripsiFilm;
-    private Double harga; // Menambahkan harga pada entitas Film
+    private Double harga;
+    private String Video_Path;  // Add this field
 
     // Additional fields for display
     private String Nama_Genre;
-    private String[] Nama_Actors;  // To store multiple actors
+    private String[] Nama_Actors;
     private List<Integer> actorIds;
 }

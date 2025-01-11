@@ -181,13 +181,15 @@ public class JdbcFilmRepository implements FilmRepository {
     }
 
     public void save(Film film) {
-        String filmSql = "INSERT INTO Film (Nama_Film, ID_Genre, Stok, Foto_Cover, DeskripsiFilm) VALUES (?, ?, ?, ?, ?) RETURNING ID_Film";
+        String filmSql = "INSERT INTO Film (Nama_Film, ID_Genre, Stok, Foto_Cover, DeskripsiFilm, harga) VALUES (?, ?, ?, ?, ?, ?) RETURNING ID_Film";
         Integer filmId = jdbcTemplate.queryForObject(filmSql, Integer.class,
             film.getNama_Film(),
             film.getID_Genre(),
             film.getStok(),
             film.getFoto_Cover(),
-            film.getDeskripsiFilm());
+            film.getDeskripsiFilm(),
+            film.getHarga()  // Menambahkan parameter harga
+        );
     
         // Insert multiple actors into Film_Actor table
         String actorSql = "INSERT INTO Film_Actor (ID_Film, ID_Actor) VALUES (?, ?)";
