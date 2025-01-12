@@ -1163,3 +1163,37 @@ box-sizing: border-box;  /* Memastikan padding tidak melampaui batas */
 .back-btn:hover {
   background-color: #666;
 }
+
+.footer {
+  background-color: #141414;
+  color: #757575;
+  padding: 40px 45px;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-row a {
+  color: #757575;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-row a:hover {
+  text-decoration: underline;
+}
+
+.footer-row p {
+  margin: 0;
+  font-size: 12px;
+}

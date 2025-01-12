@@ -10,7 +10,6 @@
     <header class="header">
         <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
         <div class="menu">
-            <a th:href="@{/about}" class="search-btn">About Us</a>
             <button id="search-toggle" class="search-btn"><i class="fas fa-search"></i> Search</button>
         </div>
         <div class="profile-menu">
@@ -79,6 +78,15 @@
                 </form>
             </div>
         </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <li><a th:href="@{/about}">About Us</a></li>
+                    <p>&copy; 2024 RENTAL-FILM. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
     <script src="/home.js"></script>
 </body>
 </html>
