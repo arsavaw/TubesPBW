@@ -5,114 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="'Details - ' + ${movie.Nama_Film}">Movie Details</title>
     <link rel="stylesheet" th:href="@{/css/movie-details.css}">
-    <style>
-        .actors-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-        }
-
-        .actors-heading {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            color: #e50914;
-            margin-top: 5px;
-            margin-bottom : 5px;
-        }
-
-        .actors-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center; 
-        }
-
-        .actor-tag {
-            background: rgba(229, 9, 20, 0.1);
-            padding: 5px 15px;
-            border-radius: 20px;
-            color: #fff;
-            font-size: 0.9em;
-            border: 1px solid rgba(229, 9, 20, 0.3);
-        }
-
-        .movie-details {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-        }
-
-        .movie-image {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .movie-info {
-            margin: 20px 0;
-            line-height: 1.6;
-        }
-
-        .movie-meta {
-            display: flex;
-            gap: 20px;
-            margin: 15px 0;
-            color: #999;
-            justify-content: center; 
-        }
-
-        .movie-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        #notification {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #4ec12f;
-            color: white;
-            padding: 30px 50px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        #notification span {
-            display: block;
-            font-size: 1.2em;
-            margin-top: 10px;
-            font-weight: normal;
-        }
-
-        .notification-bg {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 999;
-        }
-        
-    </style>
-
 </head>
 <body>
     <a th:href="@{/home}" class="logo">RENTAL-FILM</a>
@@ -130,10 +22,18 @@
         <h1>
             <span th:text="${movie.Nama_Film}">Movie Title</span>
         </h1>
-        
-        
         <img th:src="@{${movie.Foto_Cover}}" th:alt="${movie.Nama_Film}" class="movie-image">
-        
+        <div class="movie-trailer">
+            <h2>Trailer : </h2>
+            <div class="video-container">
+                <video id="videoPlayer"
+                    width="560"
+                    height="315"
+                    controls>
+                    <source th:src="${movie.Video_Path}" type="video/mp4">
+                </video>
+            </div>
+        </div>
         <div class="movie-info">
             <h2>Sinopsis:</h2>
             <p th:text="${movie.DeskripsiFilm}">Description</p>
@@ -142,14 +42,14 @@
                 <span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+                            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
                     </svg>
                     <span th:text="${movie.Nama_Genre}">Genre</span>
                 </span>
                 <span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
                     <span th:text="${movie.Stok + ' in stock'}">Stock</span>
                 </span>
@@ -178,7 +78,7 @@
         <a th:href="@{/home}" class="back-btn">Back to Home</a>
     </div>
 
-    <script>
+    <script th:inline="javascript">
         function showNotification() {
             const notification = document.getElementById('notification');
             const notificationBg = document.getElementById('notification-bg');
@@ -204,6 +104,17 @@
                 }, 3000);
             });
         }
+
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const videoPlayer = document.getElementById('videoPlayer');
+        //     const videoPath = /*[[${movie.Video_Path}]]*/ '';
+        //     console.log(videoPath);
+            
+        //     if (videoPath) {
+        //         videoPlayer.src = videoPath;
+        //         videoPlayer.load();
+        //     }
+        // });
     </script>
 </body>
 </html>

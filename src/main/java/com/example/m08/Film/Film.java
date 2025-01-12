@@ -2,7 +2,6 @@ package com.example.m08.Film;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -18,9 +17,8 @@ public class Film {
     private String Foto_Cover;
     private String DeskripsiFilm;
     private Double harga;
-    private String Video_Path;  // Add this field
+    private String Video_Path;
 
-    // Additional fields for display
     private String Nama_Genre;
     private String[] Nama_Actors;
     private List<Integer> actorIds;
