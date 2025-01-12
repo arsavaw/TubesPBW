@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +44,8 @@ public class AdminController {
     private PenyewaanService penyewaanService;
     @Autowired
     private PDFService pdfService;
+    @Autowired
+    private FilmService filmService;
 
     @GetMapping("/admin")
     public String homePage(HttpSession session, Model model) {
@@ -90,9 +91,23 @@ public class AdminController {
         }
         model.addAttribute("film", new Film());
         model.addAttribute("genres", genreRepository.findAll());
-        model.addAttribute("actors", actorRepository.findAll()); // Tambahkan ini
+        model.addAttribute("actors", actorRepository.findAll());
         return "admin/add_film";
     }
+
+    @GetMapping("/admin/film-list")
+    public String showFilmList(Model model, HttpSession session) {
+        if (session.getAttribute("adminUsername") == null) {
+            return "redirect:/login";
+        }
+        
+        List<Film> films = filmRepository.findAll();
+        model.addAttribute("success", true);
+        model.addAttribute("films", films);
+        return "admin/film-list";
+    }
+
+    
 
     @PostMapping("/admin/add-film")
     public String addFilm(@Valid @ModelAttribute Film film,
@@ -106,14 +121,12 @@ public class AdminController {
             return "admin/add_film";
         }
 
-        // Handle cover file upload
         if (!coverFile.isEmpty()) {
             String uploadDir = "src/main/resources/static/covers/";
             String filename = handleFileUpload(coverFile, uploadDir);
             film.setFoto_Cover("/covers/" + filename);
         }
 
-        // Handle video file upload
         if (!videoFile.isEmpty()) {
             String uploadDir = "src/main/resources/static/videos/";
             String filename = handleFileUpload(videoFile, uploadDir);
@@ -127,7 +140,7 @@ public class AdminController {
         return "admin/add_film";
     }
 
-    // Helper method untuk handle file upload
+    
     private String handleFileUpload(MultipartFile file, String uploadDir) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -138,7 +151,6 @@ public class AdminController {
             Files.createDirectories(uploadPath);
         }
 
-        // Generate unique filename
         String filename = originalFilename;
         int counter = 1;
         while (Files.exists(Paths.get(uploadDir + filename))) {
@@ -146,7 +158,6 @@ public class AdminController {
             counter++;
         }
 
-        // Save the file with unique name
         Files.copy(file.getInputStream(), Paths.get(uploadDir + filename));
         return filename;
     }
@@ -166,7 +177,7 @@ public class AdminController {
             return "admin/add_actor";
         }
         actorRepository.save(actor);
-        model.addAttribute("success", true); // Tambahkan atribut success ke model
+        model.addAttribute("success", true);
         return "admin/add_actor";
     }
 
@@ -182,11 +193,9 @@ public class AdminController {
             return "redirect:/login";
         }
 
-        // Data untuk grafik penyewaan per bulan
         Map<String, Integer> monthlyRentals = penyewaanService.getMonthlyRentalStats();
         model.addAttribute("monthlyRentals", monthlyRentals);
 
-        // Data untuk grafik film terpopuler
         Map<String, Integer> popularFilms = penyewaanService.getPopularFilms();
         model.addAttribute("popularFilms", popularFilms);
 
@@ -200,15 +209,12 @@ public class AdminController {
         }
 
         try {
-            // Get summary statistics
             Map<String, Object> summary = laporanService.getLaporanSummary();
             model.addAttribute("summary", summary);
 
-            // Get monthly reports
             List<Map<String, Object>> reports = laporanService.getMonthlyReports();
             model.addAttribute("reports", reports);
 
-            // Get top customers
             List<Map<String, Object>> topCustomers = laporanService.getTopCustomers();
             model.addAttribute("topCustomers", topCustomers);
 
@@ -221,18 +227,78 @@ public class AdminController {
 
     @GetMapping("/admin/laporan/download")
     public void downloadLaporanPDF(HttpServletResponse response) throws IOException {
-        // Get all rental data
         List<Penyewaan> penyewaans = penyewaanService.getAllPenyewaan();
 
-        // Generate PDF
         ByteArrayInputStream bis = pdfService.generateLaporanPDF(penyewaans);
 
-        // Set response headers
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=laporan_penyewaan.pdf");
 
-        // Write PDF content to response
         IOUtils.copy(bis, response.getOutputStream());
         response.flushBuffer();
     }
+    @GetMapping("/admin/films")
+    public String listFilms(Model model, HttpSession session) {
+        if (session.getAttribute("adminUsername") == null) {
+            return "redirect:/login";
+        }
+        List<Film> films = filmService.getAllFilms();
+        model.addAttribute("films", films);
+        return "admin/film-list";
+    }
+
+  
+    @PostMapping("/admin/film/delete/{id}")
+    public String deleteFilm(@PathVariable Integer id, HttpSession session,Model model) {
+        if (session.getAttribute("adminUsername") == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("success", true);
+        filmService.deleteFilm(id);
+        return "redirect:/admin/films?success=true";
+    }
+
+    @GetMapping("/admin/film/edit/{id}")
+        public String editFilmPage(@PathVariable Integer id, Model model, HttpSession session) {
+            if (session.getAttribute("adminUsername") == null) {
+                return "redirect:/login";
+            }
+            
+            Film film = filmService.findById(id);
+            model.addAttribute("film", film);
+            model.addAttribute("genres", genreRepository.findAll());
+            model.addAttribute("actors", actorRepository.findAll());
+            return "admin/edit_film";
+        }
+
+        @PostMapping("/admin/film/edit/{id}")
+        public String updateFilm(
+            @PathVariable Integer id,
+            @Valid @ModelAttribute Film film,
+            BindingResult result,
+            @RequestParam(value = "coverFile", required = false) MultipartFile coverFile,
+            @RequestParam(value = "videoFile", required = false) MultipartFile videoFile,
+            Model model) throws IOException {
+            
+            if (result.hasErrors()) {
+                model.addAttribute("genres", genreRepository.findAll());
+                model.addAttribute("actors", actorRepository.findAll());
+                return "admin/edit_film";
+            }
+
+            if (coverFile != null && !coverFile.isEmpty()) {
+                String uploadDir = "src/main/resources/static/covers/";
+                String filename = handleFileUpload(coverFile, uploadDir);
+                film.setFoto_Cover("/covers/" + filename);
+            }
+
+            if (videoFile != null && !videoFile.isEmpty()) {
+                String uploadDir = "src/main/resources/static/videos/";
+                String filename = handleFileUpload(videoFile, uploadDir);
+                film.setVideo_Path("/videos/" + filename);
+            }
+
+            filmService.updateFilm(id, film);
+            return "redirect:/admin/films?success=true";
+        }
 }

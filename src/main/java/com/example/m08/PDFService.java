@@ -24,24 +24,20 @@ public class PDFService {
             PdfWriter.getInstance(document, out);
             document.open();
             
-            // Add Title
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
             Paragraph title = new Paragraph("Laporan Penyewaan Film", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
-            document.add(new Paragraph("\n")); // Add some spacing
+            document.add(new Paragraph("\n"));
             
-            // Add Date
             Font dateFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
             Paragraph date = new Paragraph("Tanggal: " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()), dateFont);
             document.add(date);
             document.add(new Paragraph("\n"));
             
-            // Create table
             PdfPTable table = new PdfPTable(7); 
             table.setWidthPercentage(100);
             
-            // Add headers
             Stream.of("No.", "Judul Film", "Genre", "Tanggal Pinjam", "Tanggal Kembali", "Status", "Harga")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
@@ -54,7 +50,6 @@ public class PDFService {
                     table.addCell(header);
                 });
             
-            // Add data rows
             int number = 1;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             
@@ -72,7 +67,6 @@ public class PDFService {
             
             document.add(table);
             
-            // Add summary
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("Total Penyewaan: " + penyewaans.size()));
             long activeCount = penyewaans.stream()
@@ -81,8 +75,8 @@ public class PDFService {
             document.add(new Paragraph("Penyewaan Aktif: " + activeCount));
             document.add(new Paragraph("Penyewaan Selesai: " + (penyewaans.size() - activeCount)));
             double totalPendapatan = penyewaans.stream()
-                .mapToDouble(Penyewaan::getHarga) // Ambil harga dari setiap penyewaan
-                .sum(); // Jumlahkan semua harga
+                .mapToDouble(Penyewaan::getHarga)
+                .sum(); 
             document.add(new Paragraph("Total Pendapatan: " + totalPendapatan));
             
             document.close();

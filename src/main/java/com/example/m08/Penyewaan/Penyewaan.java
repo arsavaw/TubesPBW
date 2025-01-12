@@ -19,7 +19,6 @@ public class Penyewaan {
     private Date Tanggal_Kembali;
     private String status;
     
-    // Add film details for display
     private String Nama_Film;
     private String Foto_Cover;
     private String DeskripsiFilm;

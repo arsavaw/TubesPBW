@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film List - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141414;
+            color: #fff;
+            display: flex;
+        }
+    
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #141414;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+    
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+    
+        .sidebar-brand {
+            color: #dc3545;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+    
+        .menu-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+    
+        .menu-item:hover {
+            background: #141414;
+            color: #dc3545;
+        }
+    
+        .menu-item.active {
+            background: #141414;
+            color: #dc3545;
+            border-left: 4px solid #dc3545;
+        }
+    
+        .menu-icon {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+        }
+    
+        /* Content Styles */
+        .container {
+            margin-left: 250px;
+            padding: 2rem;
+            width: calc(100% - 250px);
+        }
+    
+        /* Table Styles */
+        .film-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        .film-table th, 
+        .film-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #2a2a2a;
+        }
+    
+        .film-table th {
+            background-color: #262626;
+            color: #dc3545;
+            font-weight: 500;
+        }
+    
+        .film-table tr:hover {
+            background-color: #262626;
+        }
+    
+        /* Button Styles */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.25rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+        }
+    
+        .btn-edit {
+            background: #28a745;
+            color: white;
+        }
+    
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+    
+        .btn:hover {
+            opacity: 0.9;
+        }
+    
+        /* Page Title */
+        h1 {
+            color: #fff;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+    
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            padding: 0.75rem;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+    
+        .logout-btn:hover {
+            background: #c82333;
+        }
+    
+        .notification {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        position: fixed;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        border-radius: 5px;
+        width: 300px;
+        font-size: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    
+        .error-message{
+        color: #ff0000;
+        }
+    
+        /* Notification Style */
+        .notification {
+        background-color: #4CAF50; 
+        color: white; 
+        padding: 15px; 
+        text-align: center; 
+        position: fixed;
+        top: 10%; 
+        left: 50%; 
+        transform: translateX(-50%);
+        z-index: 1000;
+        border-radius: 5px; 
+        width: 300px;
+        font-size: 16px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        animation: fadeOut 3s forwards;
+        }
+    
+        /* Animasi untuk menghilangkan notifikasi */
+        @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1; 
+        }
+        100% {
+            opacity: 0;
+            display: none;
+        }
+        }
+    
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <a href="/admin" class="sidebar-brand">RENTAL-FILM</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="/admin" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/admin/tambah" class="menu-item active">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah
+            </a>
+            <a href="/admin/grafik" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                </svg>
+                Grafik
+            </a>
+            <a href="/admin/laporan" class="menu-item">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Laporan
+            </a>
+        </div>
+        <a href="/admin/logout" class="logout-btn">
+            Logout
+        </a>
+    </nav>
+
+    <div class="container">
+        <h1>Daftar Film</h1>
+        <table class="film-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Judul</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="film : ${films}">
+                    <td th:text="${film.ID_Film}"></td>
+                    <td th:text="${film.Nama_Film}"></td>
+                    <td th:text="${film.Stok}"></td>
+                    <td th:text="${film.harga}"></td>
+                    <td>
+                        <a th:href="@{/admin/film/edit/{id}(id=${film.ID_Film})}" class="btn btn-edit">Edit</a>
+                        <form th:action="@{/admin/film/delete/{id}(id=${film.ID_Film})}" method="post" style="display: inline-block;"
+                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus film ini?');">
+                            <button type="submit" class="btn btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${param.success}" class="notification">
+        film Berhasil dihapus!
+    </div>
+
+</body>
+<script>
+      setTimeout(() => {
+            const notification = document.querySelector('.notification');
+            if (notification) {
+                notification.style.display = 'none';
+            }
+        }, 3000);
+</script>
+</html>

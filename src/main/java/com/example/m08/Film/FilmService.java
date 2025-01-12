@@ -33,4 +33,18 @@ public class FilmService {
     public Film findById(Integer id) {
         return filmRepository.findById(id);
     }
+
+    public List<Film> getAllFilms() {
+        return filmRepository.findAll();
+    }
+
+    public void updateFilm(Integer id, Film film) {
+        film.setID_Film(id);
+        filmRepository.update(film);
+    }
+
+    public void deleteFilm(Integer id) {
+        filmRepository.deleteById(id);
+    }
+    
 }

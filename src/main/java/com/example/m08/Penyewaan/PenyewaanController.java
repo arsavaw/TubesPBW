@@ -23,13 +23,11 @@ public class PenyewaanController {
     @GetMapping("/rental/active")
     public String viewActiveRentals(Model model, HttpSession session) {
         try {
-            // Check if user is logged in
             Integer userId = (Integer) session.getAttribute("ID_Pelanggan");
             if (userId == null) {
                 return "redirect:/login";
             }
 
-            // Get active rentals
             List<Penyewaan> activeRentals = penyewaanService.getActiveRentals(userId);
             model.addAttribute("activeRentals", activeRentals);
             

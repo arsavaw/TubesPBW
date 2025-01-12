@@ -10,10 +10,8 @@ import com.example.m08.Penyewaan.*;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 @Controller
 public class HistoryController {
@@ -23,20 +21,15 @@ public class HistoryController {
 
    @GetMapping("/history")
    public String viewHistory(Model model, HttpSession session) {
-       // Check if user is logged in
        if (session.getAttribute("username") == null) {
            return "redirect:/login";
        }
 
        try {
-           // Get user ID from session
            Integer userId = (Integer) session.getAttribute("ID_Pelanggan");
-
-           // Get rental history
            List<Penyewaan> rentals = penyewaanService.getRentalHistory(userId);
            model.addAttribute("rentals", rentals);
 
-           // Add counts for different statuses
            long activeCount = rentals.stream()
                .filter(r -> "ACTIVE".equals(r.getStatus()))
                .count();

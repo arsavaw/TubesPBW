@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Film</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #141414;
+        color: #fff;
+        display: flex;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background: #141414;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+
+    .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .sidebar-brand {
+        color: #dc3545;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .sidebar-menu {
+        padding: 1rem 0;
+    }
+
+    .menu-item {
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .menu-item:hover {
+        background: #141414;
+        color: #dc3545;
+    }
+
+    .menu-item.active {
+        background: #141414;
+        color: #dc3545;
+        border-left: 4px solid #dc3545;
+    }
+
+    .menu-icon {
+        margin-right: 0.75rem;
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Content Styles */
+    .container {
+        margin-left: 250px;
+        padding: 2rem;
+        width: calc(100% - 250px);
+    }
+
+    /* Table Styles */
+    .film-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #1a1a1a;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .film-table th, 
+    .film-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #2a2a2a;
+    }
+
+    .film-table th {
+        background-color: #262626;
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .film-table tr:hover {
+        background-color: #262626;
+    }
+
+    /* Button Styles */
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0.25rem;
+        border: none;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.875rem;
+    }
+
+    .btn-edit {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-delete {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    /* Page Title */
+    h1 {
+        color: #fff;
+        margin-bottom: 2rem;
+        font-weight: 600;
+    }
+
+    /* Logout Button */
+    .logout-btn {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        padding: 0.75rem;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .logout-btn:hover {
+        background: #c82333;
+    }
+
+    .notification {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .error-message{
+    color: #ff0000;
+    }
+
+    /* Notification Style */
+    .notification {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 15px; 
+    text-align: center; 
+    position: fixed;
+    top: 10%; 
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 1000;
+    border-radius: 5px; 
+    width: 300px;
+    font-size: 16px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    animation: fadeOut 3s forwards;
+    }
+
+    /* Animasi untuk menghilangkan notifikasi */
+    @keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1; 
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+    }
+
+</style>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Film</h2>
+        
+        <form th:action="@{/admin/film/edit/{id}(id=${film.ID_Film})}" 
+              method="post" 
+              enctype="multipart/form-data" 
+              th:object="${film}">
+            
+            <div class="form-group">
+                <label>Nama Film</label>
+                <input type="text" class="form-control" th:field="*{nama_Film}" required>
+                <span class="text-danger" th:if="${#fields.hasErrors('nama_Film')}" th:errors="*{nama_Film}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Genre</label>
+                <select class="form-control" th:field="*{ID_Genre}" required>
+                    <option value="">Pilih Genre</option>
+                    <option th:each="genre : ${genres}"
+                            th:value="${genre.ID_Genre}"
+                            th:text="${genre.nama_Genre}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Actors</label>
+                <select class="form-control" th:field="*{actorIds}" multiple required>
+                    <option th:each="actor : ${actors}"
+                            th:value="${actor.ID_Actor}"
+                            th:text="${actor.nama_Actor}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Stok</label>
+                <input type="number" class="form-control" th:field="*{stok}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Harga</label>
+                <input type="number" step="0.01" class="form-control" th:field="*{harga}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi</label>
+                <textarea class="form-control" th:field="*{deskripsiFilm}" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Cover Film (Opsional)</label>
+                <input type="file" class="form-control-file" name="coverFile" accept="image/*">
+                <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengubah cover.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Video Film (Opsional)</label>
+                <input type="file" class="form-control-file" name="videoFile" accept="video/*">
+                <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengubah video.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Film</button>
+            <a th:href="@{/admin/films}" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -168,18 +168,53 @@ UPDATE Penyewaan
 SET Tanggal_Kembali = Tanggal + INTERVAL '3 days'
 WHERE status = 'RETURNED';
 
-UPDATE Film SET Foto_Cover = '/images/films/dark_knight.jpg' WHERE Nama_Film = 'The Dark Knight';
-UPDATE Film SET Foto_Cover = '/images/films/avatar.jpg' WHERE Nama_Film = 'Avatar';
-UPDATE Film SET Foto_Cover = '/images/films/inception.jpg' WHERE Nama_Film = 'Inception';
-UPDATE Film SET Foto_Cover = '/images/films/shawshank.jpg' WHERE Nama_Film = 'The Shawshank Redemption';
-UPDATE Film SET Foto_Cover = '/images/films/jurassic_park.jpg' WHERE Nama_Film = 'Jurassic Park';
-UPDATE Film SET Foto_Cover = '/images/films/conjuring.jpg' WHERE Nama_Film = 'The Conjuring';
-UPDATE Film SET Foto_Cover = '/images/films/la_la_land.jpg' WHERE Nama_Film = 'La La Land';
-UPDATE Film SET Foto_Cover = '/images/films/interstellar.jpg' WHERE Nama_Film = 'Interstellar';
-UPDATE Film SET Foto_Cover = '/images/films/lotr.jpg' WHERE Nama_Film = 'The Lord of the Rings';
-UPDATE Film SET Foto_Cover = '/images/films/frozen.jpg' WHERE Nama_Film = 'Frozen';
-UPDATE Film SET Foto_Cover = '/images/films/godfather.jpg' WHERE Nama_Film = 'The Godfather';
-UPDATE Film SET Foto_Cover = '/images/films/spiderman.jpg' WHERE Nama_Film = 'Spider-Man: No Way Home';
-UPDATE Film SET Foto_Cover = '/images/films/titanic.jpg' WHERE Nama_Film = 'Titanic';
-UPDATE Film SET Foto_Cover = '/images/films/matrix.jpg' WHERE Nama_Film = 'The Matrix';
-UPDATE Film SET Foto_Cover = '/images/films/joker.jpg' WHERE Nama_Film = 'Joker';
+UPDATE Film SET Foto_Cover = CASE 
+    WHEN Nama_Film = 'The Dark Knight' THEN '/images/films/dark_knight.jpg'
+    WHEN Nama_Film = 'Avatar' THEN '/images/films/avatar.jpg'
+    WHEN Nama_Film = 'Inception' THEN '/images/films/inception.jpg'
+    WHEN Nama_Film = 'The Shawshank Redemption' THEN '/images/films/shawshank.jpg'
+    WHEN Nama_Film = 'Jurassic Park' THEN '/images/films/jurassic_park.jpg'
+    WHEN Nama_Film = 'The Conjuring' THEN '/images/films/conjuring.jpg'
+    WHEN Nama_Film = 'La La Land' THEN '/images/films/la_la_land.jpg'
+    WHEN Nama_Film = 'Interstellar' THEN '/images/films/interstellar.jpg'
+    WHEN Nama_Film = 'The Lord of the Rings' THEN '/images/films/lotr.jpg'
+    WHEN Nama_Film = 'Frozen' THEN '/images/films/frozen.jpg'
+    WHEN Nama_Film = 'The Godfather' THEN '/images/films/godfather.jpg'
+    WHEN Nama_Film = 'Spider-Man: No Way Home' THEN '/images/films/spiderman.jpg'
+    WHEN Nama_Film = 'Titanic' THEN '/images/films/titanic.jpg'
+    WHEN Nama_Film = 'The Matrix' THEN '/images/films/matrix.jpg'
+    WHEN Nama_Film = 'Joker' THEN '/images/films/joker.jpg'
+    ELSE Foto_Cover
+END;
+
+UPDATE Film SET Video_Path = '/videos/thematrix.mp4' WHERE Nama_Film = 'The Matrix'
+UPDATE Film SET Video_Path = '/videos/joker.mp4' WHERE Nama_Film = 'Joker'
+UPDATE Film SET Video_Path = '/videos/titanic.mp4' WHERE Nama_Film = 'Titanic'
+UPDATE Film SET Video_Path = '/videos/nowayhome.mp4' WHERE Nama_Film = 'Spider-Man: No Way Home'
+UPDATE Film SET Video_Path = '/videos/godfather.mp4' WHERE Nama_Film = 'The Godfather'
+UPDATE Film SET Video_Path = '/videos/frozen.mp4' WHERE Nama_Film = 'Frozen'
+UPDATE Film SET Video_Path = '/videos/lotr.mp4' WHERE Nama_Film = 'The Lord of the Rings'
+UPDATE Film SET Video_Path = '/videos/interstellar.mp4' WHERE Nama_Film = 'Interstellar'
+UPDATE Film SET Video_Path = '/videos/lalaland.mp4' WHERE Nama_Film = 'La La Land'
+UPDATE Film SET Video_Path = '/videos/conjuring.mp4' WHERE Nama_Film = 'The Conjuring'
+UPDATE Film SET Video_Path = '/videos/jurrasicpark.mp4' WHERE Nama_Film = 'Jurrasic Park'
+UPDATE Film SET Video_Path = '/videos/shwshk.mp4' WHERE Nama_Film = 'The Shawshank Redemption'
+UPDATE Film SET Video_Path = '/videos/inception.mp4' WHERE Nama_Film = 'Inception'
+UPDATE Film SET Video_Path = '/videos/avatar.mp4' WHERE Nama_Film = 'Avatar'
+UPDATE Film SET Video_Path = '/videos/tdk.mp4' WHERE Nama_Film = 'The Dark Knight';
+
+UPDATE Film SET harga = 50000 WHERE Nama_Film = 'The Dark Knight'
+UPDATE Film SET harga = 72000 WHERE Nama_Film = 'Avatar';
+UPDATE Film SET harga = 65000 WHERE Nama_Film = 'Inception';
+UPDATE Film SET harga = 90000 WHERE Nama_Film = 'The Shawshank Redemption';
+UPDATE Film SET harga = 83000 WHERE Nama_Film = 'Jurassic Park';
+UPDATE Film SET harga = 58000 WHERE Nama_Film = 'The Conjuring';
+UPDATE Film SET harga = 75000 WHERE Nama_Film = 'La La Land';
+UPDATE Film SET harga = 86000 WHERE Nama_Film = 'Interstellar';
+UPDATE Film SET harga = 90000 WHERE Nama_Film = 'The Lord of the Rings';
+UPDATE Film SET harga = 50000 WHERE Nama_Film = 'Frozen';
+UPDATE Film SET harga = 88000 WHERE Nama_Film = 'The Godfather';
+UPDATE Film SET harga = 67000 WHERE Nama_Film = 'Spider-Man: No Way Home';
+UPDATE Film SET harga = 78000 WHERE Nama_Film = 'Titanic';
+UPDATE Film SET harga = 71000 WHERE Nama_Film = 'The Matrix';
+UPDATE Film SET harga = 60000 WHERE Nama_Film = 'Joker';
