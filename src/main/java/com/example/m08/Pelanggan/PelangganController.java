@@ -25,17 +25,14 @@ public class PelangganController {
             BindingResult bindingResult,
             @RequestParam("confirm_password") String confirmPassword) {
 
-        // Validasi jika confirm_password tidak cocok dengan password_pelanggan
         if (!pelanggan.getPassword_pelanggan().equals(confirmPassword)) {
             bindingResult.rejectValue("password_pelanggan", "error.pelanggan", "Password and Confirm Password do not match.");
         }
 
-        // Jika ada error validasi, kembali ke halaman signup
         if (bindingResult.hasErrors()) {
             return "signup";
         }
 
-        // Coba mendaftarkan pelanggan
         try {
             boolean registrationSuccess = pelangganService.register(pelanggan);
 
@@ -44,7 +41,6 @@ public class PelangganController {
                 return "signup";
             }
 
-            // Redirect dengan parameter success=true
             return "redirect:/register?success=true";
         } catch (Exception e) {
             bindingResult.rejectValue("username_pelanggan", "error.pelanggan", "An error occurred during registration");

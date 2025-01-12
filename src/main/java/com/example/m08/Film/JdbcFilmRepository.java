@@ -7,12 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.m08.Models.Actor;
 
-import jakarta.validation.Valid;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class JdbcFilmRepository implements FilmRepository {
@@ -191,7 +186,6 @@ public class JdbcFilmRepository implements FilmRepository {
                 film.getDeskripsiFilm(),
                 film.getHarga(),
                 film.getVideo_Path());
-        // Insert multiple actors into Film_Actor table
         String actorSql = "INSERT INTO Film_Actor (ID_Film, ID_Actor) VALUES (?, ?)";
         for (Integer actorId : film.getActorIds()) {
             jdbcTemplate.update(actorSql, filmId, actorId);
@@ -233,4 +227,64 @@ public class JdbcFilmRepository implements FilmRepository {
 
         return new ArrayList<>(filmMap.values());
     }
+
+
+    @Transactional
+    public void update(Film film) {
+        String sql = """
+            UPDATE Film 
+            SET Nama_Film = ?, ID_Genre = ?, Stok = ?, 
+                DeskripsiFilm = ?, harga = ?
+            WHERE ID_Film = ?
+            """;
+        
+        jdbcTemplate.update(sql,
+            film.getNama_Film(),
+            film.getID_Genre(),
+            film.getStok(),
+            film.getDeskripsiFilm(),
+            film.getHarga(),
+            film.getID_Film()
+        );
+
+        if (film.getFoto_Cover() != null) {
+            jdbcTemplate.update("UPDATE Film SET Foto_Cover = ? WHERE ID_Film = ?",
+                film.getFoto_Cover(), film.getID_Film());
+        }
+        if (film.getVideo_Path() != null) {
+            jdbcTemplate.update("UPDATE Film SET Video_Path = ? WHERE ID_Film = ?",
+                film.getVideo_Path(), film.getID_Film());
+        }
+
+        if (film.getActorIds() != null) {
+            jdbcTemplate.update("DELETE FROM Film_Actor WHERE ID_Film = ?", film.getID_Film());
+            
+            String actorSql = "INSERT INTO Film_Actor (ID_Film, ID_Actor) VALUES (?, ?)";
+            for (Integer actorId : film.getActorIds()) {
+                jdbcTemplate.update(actorSql, film.getID_Film(), actorId);
+            }
+        }
+    }
+
+
+    public List<Map<String, Object>> findAllWithGenres() {
+        String sql = """
+            SELECT f.*, g.Nama_Genre 
+            FROM Film f 
+            LEFT JOIN Genre g ON f.ID_Genre = g.ID_Genre 
+            ORDER BY f.ID_Film
+        """;
+        
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    
+
+    @Transactional
+    public void deleteById(Integer id) {
+        jdbcTemplate.update("DELETE FROM Film_Actor WHERE ID_Film = ?", id);
+        jdbcTemplate.update("DELETE FROM Penyewaan WHERE ID_Film = ?", id);
+        jdbcTemplate.update("DELETE FROM Film WHERE ID_Film = ?", id);
+    }
+
 }

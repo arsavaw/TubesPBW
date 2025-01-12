@@ -25,15 +25,12 @@ public class HomeController {
         }
 
         try {
-            // Get featured movies (6 film untuk 2 slide)
             List<Film> featuredMovies = filmService.getFeaturedMovies();
             model.addAttribute("featuredMovies", featuredMovies);
 
-            // Get available movies
             List<Film> availableFilms = filmService.getLatestMovies();
             model.addAttribute("availableFilms", availableFilms);
 
-            // Get latest movies
             List<Film> latestMovies = filmService.getLatestMovies();
             logger.debug("Latest movies: {}", latestMovies);
             model.addAttribute("latestMovies", latestMovies);

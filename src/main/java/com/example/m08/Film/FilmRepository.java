@@ -9,4 +9,8 @@ public interface FilmRepository {
     List<Film> getRecommendedMovies(Integer ID_Pelanggan);
     List<Film> searchFilms(String genre, String actor, String title);
     Film findById(Integer id);
+     List<Film> findAll();
+     void update(Film film);
+     void deleteById(Integer id);
+     void save(Film film);
 }

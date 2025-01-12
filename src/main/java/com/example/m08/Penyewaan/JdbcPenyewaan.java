@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class JdbcPenyewaan implements PenyewaanRepository {
@@ -18,7 +17,6 @@ public class JdbcPenyewaan implements PenyewaanRepository {
     @Override
     @Transactional
     public void save(Penyewaan penyewaan) {
-        // Kurangi stok film
         String updateStockSql = "UPDATE Film SET Stok = Stok - 1 WHERE ID_Film = ? AND Stok > 0";
         int updated = jdbcTemplate.update(updateStockSql, penyewaan.getID_Film());
         
@@ -26,7 +24,6 @@ public class JdbcPenyewaan implements PenyewaanRepository {
             throw new RuntimeException("Film tidak tersedia");
         }
 
-        // Simpan data penyewaan
         String sql = "INSERT INTO Penyewaan (Tanggal, ID_Film, ID_Pelanggan, status) VALUES (CURRENT_DATE, ?, ?, 'ACTIVE')";
         jdbcTemplate.update(sql,
             penyewaan.getID_Film(),
@@ -44,16 +41,13 @@ public class JdbcPenyewaan implements PenyewaanRepository {
     @Override
     @Transactional
     public void returnFilm(Integer penyewaanId) {
-        // Dapatkan ID_Film dari penyewaan
         String getFilmIdSql = "SELECT ID_Film FROM Penyewaan WHERE ID_Penyewaan = ?";
         Integer filmId = jdbcTemplate.queryForObject(getFilmIdSql, Integer.class, penyewaanId);
 
         if (filmId != null) {
-            // Update status penyewaan
             String updatePenyewaanSql = "UPDATE Penyewaan SET status = 'RETURNED', Tanggal_Kembali = CURRENT_DATE WHERE ID_Penyewaan = ?";
             jdbcTemplate.update(updatePenyewaanSql, penyewaanId);
 
-            // Tambah stok film
             String updateStockSql = "UPDATE Film SET Stok = Stok + 1 WHERE ID_Film = ?";
             jdbcTemplate.update(updateStockSql, filmId);
         } else {
@@ -129,14 +123,14 @@ public class JdbcPenyewaan implements PenyewaanRepository {
     }
 
     @Override
-public List<Penyewaan> findAll() {
-    String sql = """
-        SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre, f.harga
-        FROM Penyewaan p
-        JOIN Film f ON p.ID_Film = f.ID_Film
-        JOIN Genre g ON f.ID_Genre = g.ID_Genre
-        ORDER BY p.Tanggal DESC
-        """;
-    return jdbcTemplate.query(sql, this::mapRowToPenyewaan);
-}
+    public List<Penyewaan> findAll() {
+        String sql = """
+            SELECT p.*, f.Nama_Film, f.Foto_Cover, f.DeskripsiFilm, g.Nama_Genre, f.harga
+            FROM Penyewaan p
+            JOIN Film f ON p.ID_Film = f.ID_Film
+            JOIN Genre g ON f.ID_Genre = g.ID_Genre
+            ORDER BY p.Tanggal DESC
+            """;
+        return jdbcTemplate.query(sql, this::mapRowToPenyewaan);
+    }
 }
